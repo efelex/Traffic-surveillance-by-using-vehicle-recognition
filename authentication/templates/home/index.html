@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Imboni AI</title>
+
+    <link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/unicons.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/owl.theme.default.min.css' %}">
+      <link rel="icon" href="{% static 'home/images/policelogo.svg' %}" type="image/x-icon">
+
+    <!-- MAIN STYLE -->
+    <link rel="stylesheet" href="{% static 'home/css/tooplate-style.css' %}">
+    
+<!--
+
+Tooplate 2115 Marvel
+
+https://www.tooplate.com/view/2115-marvel
+
+-->
+  </head>
+  <body>
+
+    <!-- MENU -->
+    <nav class="navbar navbar-expand-sm navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'home/images/policelogo.svg' %}" height="80" width="80"></i>  IMBONI</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link"><span data-hover="Home">Home</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#project" class="nav-link"><span data-hover="Projects">Projects</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#about_use" class="nav-link"><span data-hover="About">About</span></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#contact" class="nav-link"><span data-hover="Contact">Contact</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'login' %}" class="nav-link"><span data-hover="Login">Login</span></a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ml-lg-auto">
+                    <div class="ml-lg-4">
+                      <div class="color-mode d-lg-flex justify-content-center align-items-center">
+                        <i class="color-mode-icon"></i>
+                        Color mode
+                      </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ABOUT -->
+    <section class="about full-screen d-lg-flex justify-content-center align-items-center" id="about">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-7 col-md-12 col-12 d-flex align-items-center">
+                    <div class="about-text" style="margin-bottom: 60px">
+                        <small class="small-text">Welcome to Police Surveillance <span class="mobile-block">by Using Vehicle Recognition!</span></small>
+                        <h1 class="animated animated-text">
+                            <span class="mr-2">Hey Drivers, I'm</span>
+                                <div class="animated-info">
+                                    <span class="animated-item">Your Vision</span>
+                                    <span class="animated-item">Your detector</span>
+                                    <span class="animated-item">Your Imboni</span>
+
+                                </div>
+                        </h1>
+
+                        <p>Building a successful AI product is a challenge. Robots are not going to replace humans, they are going to make their jobs much more humane.</p>
+                        
+                        <div class="custom-btn-group mt-4">
+                          <a href="#" class="btn mr-lg-2 custom-btn"><i class='uil uil-file-alt'></i> Download Resume</a>
+                          <a href="#contact" class="btn custom-btn custom-btn-bg custom-btn-link">Explore More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-12 col-12">
+                    <div class="about-image svg">
+                        <img src="{% static 'home/images/undraw/register.svg' %}" style="height: 300px; width: 350px" class="img-fluid" alt="svg image">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-12 col-12">
+                    <div class="about-image svg">
+                        <img src="{% static 'home/images/undraw/rightcar.svg' %}" style="height: 300px; width: 350px; margin-top: 50px; margin-right: 20px" class="img-fluid" alt="svg image">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- PROJECTS -->
+    <section class="project py-5" id="project">
+        <div class="container">
+
+                <div class="row">
+                  <div class="col-lg-11 text-center mx-auto col-12">
+
+                      <div class="col-lg-8 mx-auto">
+                        <h2>Scenario where Imboni System can be Used </h2>
+                      </div>
+
+                      <div class="owl-carousel owl-theme" style="margin-right: 15px; padding: 100px">
+                          <div class="item">
+                          <div class="project-info">
+                            <img src="{% static 'home/images/project/vehide.gif' %}" class="img-fluid" alt="project image">
+                          </div>
+                        </div>
+
+                          <div class="item">
+                          <div class="project-info">
+                            <img src="{% static 'home/images/project/homevehicle.gif' %}" class="img-fluid" alt="project image">
+                          </div>
+                        </div>
+
+                          <div class="item">
+                              <div class="project-info">
+                               <img src="{% static 'home/images/project/vehiclepark.gif' %}" class="img-fluid" alt="project image">
+                          </div>
+                        </div>
+
+                        <div class="item">
+                          <div class="project-info">
+                            <img src="{% static 'home/images/project/imageslide1.gif' %}" class="img-fluid" alt="project image">
+                          </div>
+                        </div>
+                          <div class="item">
+                          <div class="project-info">
+                            <img src="{% static 'home/images/project/vehicledete.png' %}" class="img-fluid" alt="project image">
+                          </div>
+                        </div>
+                      </div>
+
+                  </div>
+                </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="resume py-5 d-lg-flex justify-content-center align-items-center" id="about_use">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto" style="margin-bottom: 20px">
+                        <h2>Steps of Using Imboni System</h2>
+                      </div>
+
+                <div class="col-lg-6 col-12">
+                  <h2 class="mb-4">Police Part</h2>
+
+                    <div class="timeline">
+                        <div class="timeline-wrapper">
+                             <div class="timeline-yr">
+                                  <span>1</span>
+                             </div>
+                             <div class="timeline-info">
+                                  <h3><span>Sign Up </span><small></small></h3>
+                                  <p>you need to register as police before you logged in and verify your phone number</p>
+                             </div>
+                        </div>
+
+                        <div class="timeline-wrapper">
+                            <div class="timeline-yr">
+                                <span>2</span>
+                            </div>
+                            <div class="timeline-info">
+                                <h3><span>Log in </span><small></small></h3>
+                                <p>Log in with verified credentials </p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-wrapper">
+                            <div class="timeline-yr">
+                                <span>3</span>
+                            </div>
+                            <div class="timeline-info">
+                                <h3><span>Accessing Dashboard</span></h3>
+                                <p>After log in you will access dashboard where you will get many option for using imboni</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-wrapper">
+                            <div class="timeline-yr">
+                                <span>5</span>
+                            </div>
+                            <div class="timeline-info">
+                                <h3><span>Request to use it As police</span></h3>
+                                <p>In dashboard you will get option to first request to use this system as police and you will be allowed to use it when your request approved</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-12">
+                  <h2 class="mb-4 mobile-mt-2">Drivers Part</h2>
+
+                    <div class="timeline">
+                        <div class="timeline-wrapper">
+                             <div class="timeline-yr">
+                                  <span>1</span>
+                             </div>
+                             <div class="timeline-info">
+                                  <h3><span>Sign Up & Log in </span></h3>
+                                  <p>Sign up for drivers to be able to see their car status</p>
+                             </div>
+                        </div>
+
+                        <div class="timeline-wrapper">
+                            <div class="timeline-yr">
+                                <span>2</span>
+                            </div>
+                            <div class="timeline-info">
+                                <h3><span>Access Dahboard</span></h3>
+                                <p>Check car status and make request for enquiry problem</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-wrapper">
+                            <div class="timeline-yr">
+                                <span>3</span>
+                            </div>
+                            <div class="timeline-info">
+                                <h3><span>Pay Charged</span></h3>
+                                <p>Paying your amount of money you'have been charged</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- CONTACT -->
+    <section class="contact py-5" id="contact">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-5 mr-lg-5 col-12">
+            <div class="google-map w-100">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d3987.4684028904107!2d30.098818014702147!3d-1.9665667485662928!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e6!4m3!3m2!1d-1.9666298!2d30.101183199999998!4m3!3m2!1d-1.9666294!2d30.1008392!5e0!3m2!1sen!2srw!4v1645411142025!5m2!1sen!2srw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+
+            <div class="contact-info d-flex justify-content-between align-items-center py-4 px-lg-5">
+                <div class="contact-info-item">
+                  <h3 class="mb-3 text-white">Say hello</h3>
+                  <p class="footer-text mb-0">+250786405263</p>
+                  <p><a href="mailto:koracodeafrica@gmail.com">koracodeafrica@gmail.com</a></p>
+                </div>
+
+                <ul class="social-links">
+                     <li><a href="#" class="uil uil-dribbble" data-toggle="tooltip" data-placement="left" title="Dribbble"></a></li>
+                     <li><a href="#" class="uil uil-instagram" data-toggle="tooltip" data-placement="left" title="Instagram"></a></li>
+                     <li><a href="#" class="uil uil-youtube" data-toggle="tooltip" data-placement="left" title="Youtube"></a></li>
+                </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-12">
+            <div class="contact-form">
+              <h2 class="mb-4">Any feedback and request? Let's talk</h2>
+
+              <form action="" method="get">
+                <div class="row">
+                  <div class="col-lg-6 col-12">
+                    <input type="text" class="form-control" name="name" placeholder="Your Name" id="name">
+                  </div>
+
+                  <div class="col-lg-6 col-12">
+                    <input type="email" class="form-control" name="email" placeholder="Email" id="email">
+                  </div>
+
+                  <div class="col-12">
+                    <textarea name="message" rows="6" class="form-control" id="message" placeholder="Message"></textarea>
+                  </div>
+
+                  <div class="ml-lg-auto col-lg-5 col-12">
+                    <input type="submit" class="form-control submit-btn" value="Send Button">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- FOOTER -->
+     <footer class="footer py-5">
+          <div class="container">
+               <div class="row">
+
+                    <div class="col-lg-12 col-12">                                
+                        <p class="copyright-text text-center">Copyright &copy; 2022 KoraCode . All rights reserved</p>
+                        <p class="copyright-text text-center">Designed by <a rel="nofollow" href="">KoraCode</a></p>
+                    </div>
+                    
+               </div>
+          </div>
+     </footer>
+
+    <script src="{% static 'home/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'home/js/popper.min.js' %}"></script>
+    <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'home/js/Headroom.js' %}"></script>
+    <script src="{% static 'home/js/jQuery.headroom.js' %}"></script>
+    <script src="{% static 'home/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'home/js/smoothscroll.js' %}"></script>
+    <script src="{% static 'home/js/custom.js' %}"></script>
+
+  </body>
+</html>

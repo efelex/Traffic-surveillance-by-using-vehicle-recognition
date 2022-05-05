@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>verify</title>
+</head>
+<body>
+
+<div class="row">
+    <div class="col-6">
+        <form action="" method="POST" autocomplete="off">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="btn btn-primary">Verify</button>
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color: red">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

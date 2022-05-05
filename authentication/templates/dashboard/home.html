@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    home
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+				<div class="row">
+                    <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-6">
+						<div class="widget-stat card bg-info">
+							<div class="card-body p-4">
+								<div class="media">
+									<span class="me-3">
+										<img src="{% static 'dashboard/images/car.png' %}" style="height: 70px; width: 70px;">
+									</span>
+									<div class="media-body text-white text-end">
+										<p class="mb-1">Total Detected</p>
+                                        {% if captured %}
+										<h3 class="text-white">{{ captured }}</h3>
+                                        {% else %}
+                                        <h3 class="text-white">0</h3>
+                                        {% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+					<div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-6">
+						<div class="widget-stat card bg-success">
+							<div class="card-body p-4">
+								<div class="media">
+									<span class="me-3">
+										<img src="{% static 'dashboard/images/car.png' %}" style="height: 70px; width: 70px;">
+									</span>
+									<div class="media-body text-white text-end">
+										<p class="mb-1">Success</p>
+                                        {% if success %}
+										<h3 class="text-white">{{ success }}</h3>
+                                        {% else %}
+                                        <h3 class="text-white">0</h3>
+                                        {% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-6">
+						<div class="widget-stat card bg-danger">
+							<div class="card-body  p-4">
+								<div class="media">
+									<span class="me-3">
+										<img src="{% static 'dashboard/images/car.png' %}" style="height: 70px; width: 70px;">
+									</span>
+									<div class="media-body text-white text-end">
+										<p class="mb-1">Unregistered</p>
+                                        {% if unregistered %}
+										<h3 class="text-white">{{ unregistered }}</h3>
+                                        {% else %}
+                                        <h3 class="text-white">0</h3>
+                                        {% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-6">
+                        <div class="widget-stat card">
+							<div class="card-body p-4">
+								<div class="media ai-icon">
+									<span class="me-3 bgl-success text-success">
+										<img src="{% static 'dashboard/images/car.png' %}" style="height: 70px; width: 70px;">
+									</span>
+									<div class="media-body">
+										<p class="mb-1">Dummy</p>
+                                        {% if dummy %}
+										<h4 class="mb-0">{{ dummy }}</h4>
+                                        {% else %}
+                                        <h4 class="mb-0">0</h4>
+                                        {% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-xl-4 col-lg-12 col-xxl-6 col-sm-12">
+						<div class="card">
+                            <div class="card-body text-center ai-icon  text-primary">
+								<img src="{% static 'cam.gif' %}" style="width: 100px; height: 100px;">
+								<h4 class="my-2">Detect manual</h4>
+								<a href="{% url 'detect_car' %}" class="btn my-2 btn-primary btn-lg px-4"> Detect</a>
+							</div>
+						</div>
+					</div>
+                    <div class="col-xl-4 col-lg-12 col-xxl-6 col-sm-12">
+						<div class="card">
+                            <div class="card-body text-center ai-icon  text-primary">
+								<img src="{% static 'cameranew.gif' %}" style="width: 100px; height: 100px;">
+								<h4 class="my-2">Detect automatically</h4>
+								<a href="{% url 'automatic_detect_car' %}" class="btn my-2 btn-primary btn-lg px-4"> Detect</a>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+{% endblock %}
