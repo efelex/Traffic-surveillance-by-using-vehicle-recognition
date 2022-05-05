@@ -18,8 +18,8 @@ waranty_expire = future_date.date()
 
 def detect_car(request):
     user = request.user
-    plate_number = plate_detect()
-    # plate_number = 'RAD666T'
+    # plate_number = plate_detect()
+    plate_number = 'RAD666T'
     user_police_road = request.user  # police who is in the road
     # if plate number is not dummy
     if not plate_number == 'DUMMY':
@@ -251,9 +251,9 @@ def detect_car(request):
 
 def automatic_detect_car(request):
     user = request.user
-    plate_number = automatic_detect()
+    # plate_number = automatic_detect()
     user_police_road = request.user  # police who is in the road
-    # plate_number = 'RAD66T'
+    plate_number = 'RAD66T'
     if not plate_number == 'DUMMY':
         try:
             car_detected = Car_registration.objects.filter(plate_number=plate_number).first()

@@ -23147,10 +23147,10 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 .photo-content {
   position: relative; }
   .photo-content .cover-photo {
-    background: url(../images/profile/cover.jpg);
+    background: url(../images/profile/traffic.PNG);
     background-size: cover;
     background-position: center;
-    min-height: 250px;
+    min-height: 310px;
     width: 100%; }
 
 .profile .profile-photo {

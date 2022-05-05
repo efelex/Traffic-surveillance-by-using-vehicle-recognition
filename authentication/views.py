@@ -209,6 +209,9 @@ def request_new_pin(request):
                 print("phone ----------number-----------false")
     return render(request, 'dashboard/request_pin.html')
 
+def police_profile(request):
+    return render(request, 'dashboard/police_profile.html')
+
 # def register(request):
 #     form = UserForm()
 #     phone_number = request.POST.get('phone_number')
