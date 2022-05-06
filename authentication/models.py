@@ -6,6 +6,8 @@ from django.conf import settings
 from django.utils import timezone
 
 now = timezone.now()
+
+
 # User = settings.AUTH_USER_MODEL
 
 
@@ -118,3 +120,14 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.name} -- {self.user.phone_number}'
+
+
+class Reset_password_request(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pin = models.CharField(max_length=5)
+
+    def __str__(self):
+        return self.pin
+
+    class Meta:
+        verbose_name_plural = 'Reset Password Request'

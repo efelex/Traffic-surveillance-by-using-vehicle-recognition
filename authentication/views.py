@@ -9,10 +9,11 @@ from django.contrib.auth import authenticate, login, logout
 from car_plate.models import Captured, Dummy, Unregistered_car, Charged_car_official, Police_request
 from django.utils import timezone
 from authentication.decorators import unauthenticated_user, is_a_police_user
-from authentication.utilis import send_sms
-from authentication.forms import NewPinForm
+from authentication.utilis import send_sms, send_pin
+from authentication.forms import NewPinForm, ResetPasswordForm, PasswordConfirmForm
 from codes.models import Code
 from codes.code_request import request_pin
+from authentication.models import Reset_password_request
 
 now = timezone.now()
 
@@ -24,6 +25,7 @@ from codes.models import Code
 
 def home(request):
     return render(request, 'home/index.html')
+
 
 def signin(request):
     form = AuthenticationForm()
@@ -213,6 +215,90 @@ def police_profile(request):
 
 def update_profile(request):
     return render(request, 'dashboard/update_profile.html')
+
+
+# password reset  ============================ section
+def reset_password(request):
+    form = ResetPasswordForm()
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            phone_number = form.cleaned_data.get('phone_number')
+            phone_number = f'+{phone_number}'
+            user_phone = User.objects.filter(phone_number=phone_number).first()
+            if user_phone:
+                print("user registered --------------------")
+                new_code = request_pin()
+                user_request = Reset_password_request.objects.filter(user=user_phone).first()
+                if user_request:
+                    pass_reset = Reset_password_request.objects.filter(user=user_phone).update(pin=new_code)
+                    pass_reset = Reset_password_request.objects.filter(user=user_phone).first()
+                    # print("phone_number ----------yesss---------", new_code)
+                    request.session['pk'] = pass_reset.pk
+                    return redirect('confirm_verify_pin')
+                else:
+                    pass_reset = Reset_password_request.objects.create(user=user_phone, pin=new_code)
+                    pass_reset = Reset_password_request.objects.filter(user=user_phone).first()
+                    # print("phone_number ----hhh---------------", new_code)
+                    request.session['pk'] = pass_reset.pk
+                    return redirect('confirm_verify_pin')
+
+                # return redirect('verify')
+            else:
+                print("user not registered -----------")
+                return redirect('confirm_verify_pin')
+    return render(request, 'dashboard/reset_password.html')
+
+
+def confirm_verify_pin(request):
+    form = CodeForm()
+    pk = request.session.get('pk')
+    if pk:
+        police_who_request = Reset_password_request.objects.get(pk=pk)
+        user_police = police_who_request.user
+        code = police_who_request.pin
+        code_user = f"{user_police.name}: {police_who_request.pin}"
+        if not request.method == 'POST':
+            print("code is ------------------- ", code_user)
+            # send_pin(code_user, user_police.phone_number)
+        if request.method == 'POST':
+            form = CodeForm(request.POST)
+            if form.is_valid():
+                num = form.cleaned_data.get('number')
+                if str(code) == num:
+                    request.session['pk'] = user_police.pk
+                    return redirect('reset_confirm_password')
+                else:
+                    messages.error(request, 'you verification code not match')
+                    return redirect('confirm_verify_pin')
+    return render(request, 'dashboard/confirm_verify_pin.html')
+
+
+def reset_confirm_password(request):
+    form = PasswordConfirmForm
+    try:
+        pk = request.session.get('pk')
+        user = User.objects.get(pk=pk)
+        if request.method == 'POST':
+            form = PasswordConfirmForm(request.POST)
+            if form.is_valid():
+                password = form.cleaned_data.get('password')
+                user.set_password(password)
+                user.save()
+                del request.session['pk']
+                return redirect('reset_password_done')
+            else:
+                messages.error(request, 'password not match')
+
+        else:
+            form = PasswordConfirmForm
+    except:
+        return redirect('login')
+    return render(request, 'dashboard/reset_confirm_password.html')
+
+
+def reset_password_done(request):
+    return render(request, 'dashboard/reset_password_done.html')
 # def register(request):
 #     form = UserForm()
 #     phone_number = request.POST.get('phone_number')

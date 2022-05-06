@@ -6,7 +6,7 @@ from car_plate.views import *
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('login', views.signin, name='login'),
+    path('login/', views.signin, name='login'),
     path('signup/', views.signup, name='signup'),
     path('verify/', views.verify, name='verify'),
     path('dashboard/', views.dashboard, name='dashboard'),
@@ -24,9 +24,28 @@ urlpatterns = [
     path('automatic_detect_car/', automatic_detect_car, name='automatic_detect_car'),
     # danger warning
     path('danger/<int:id>/', views.warning_danger, name='warning_danger'),
-    # profile managment for traffic police
+    # profile management for traffic police
     path('police_profile/', views.police_profile, name='police_profile'),
-    path('update_profile/', views.update_profile, name='update_profile')
+    path('update_profile/', views.update_profile, name='update_profile'),
+    # password reset section
+    path('reset_password/', views.reset_password, name='reset_password'),
+    path('confirm_verify_pin/', views.confirm_verify_pin, name='confirm_verify_pin'),
+    path('reset_confirm_password/', views.reset_confirm_password, name='reset_confirm_password'),
+    path('reset_password_done/', views.reset_password_done, name='reset_password_done')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     # trial
     # path('verify/', verify, name='verify'),

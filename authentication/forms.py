@@ -99,3 +99,28 @@ class UserAdminChangeForm(forms.ModelForm):
 
 class NewPinForm(forms.Form):
     phone_number = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+
+
+class ResetPasswordForm(forms.Form):
+    phone_number = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+
+
+class PasswordConfirmForm(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput, error_messages={'password': 'password must match'})
+    password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput,
+                                 error_messages={'password': 'password must match'})
+
+    class Meta:
+        model = User
+        fields = ['password', 'password_2', ]
+
+    def clean(self):
+        # verify both password
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password_2 = cleaned_data.get("password_2")
+        if password is not None and password != password_2:
+            self.add_error("password_2", "Your passwords must match")
+        return cleaned_data
+
+
