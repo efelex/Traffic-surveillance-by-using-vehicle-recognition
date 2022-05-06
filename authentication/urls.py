@@ -25,7 +25,8 @@ urlpatterns = [
     # danger warning
     path('danger/<int:id>/', views.warning_danger, name='warning_danger'),
     # profile managment for traffic police
-    path('police_profile/', views.police_profile, name='police_profile')
+    path('police_profile/', views.police_profile, name='police_profile'),
+    path('update_profile/', views.update_profile, name='update_profile')
 
     # trial
     # path('verify/', verify, name='verify'),

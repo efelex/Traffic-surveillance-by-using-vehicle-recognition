@@ -25,11 +25,6 @@ from codes.models import Code
 def home(request):
     return render(request, 'home/index.html')
 
-
-def login_choose(request):
-    return render(request, 'choose_login/index.html')
-
-
 def signin(request):
     form = AuthenticationForm()
     if request.method == 'POST':
@@ -41,6 +36,8 @@ def signin(request):
             return redirect('dashboard')
         elif user is not None and not user.is_verified:
             messages.info(request, 'please verify your account')
+            return redirect('verify')
+
 
         else:
             messages.info(request, 'Username or password is incorrect')
@@ -108,7 +105,7 @@ def verify(request):
                 num = form.cleaned_data.get('number')
                 print("number code is --------------------", num)
                 print("code to be checking --------------------", str(code))
-                if str(code) == num: # the reason why this line of code sometime it will not work is because in the model Code in app code we returned number and user for testing purpose but if we return number only ti will work for sure
+                if str(code) == num:  # the reason why this line of code sometime it will not work is because in the model Code in app code we returned number and user for testing purpose but if we return number only ti will work for sure
                     code.save()
                     User.objects.filter(phone_number=phone_number).update(is_verified=True)
                     return redirect('login')
@@ -209,9 +206,13 @@ def request_new_pin(request):
                 print("phone ----------number-----------false")
     return render(request, 'dashboard/request_pin.html')
 
+
 def police_profile(request):
     return render(request, 'dashboard/police_profile.html')
 
+
+def update_profile(request):
+    return render(request, 'dashboard/update_profile.html')
 # def register(request):
 #     form = UserForm()
 #     phone_number = request.POST.get('phone_number')
