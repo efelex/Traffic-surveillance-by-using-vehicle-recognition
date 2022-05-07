@@ -131,9 +131,14 @@
                                                             <h6 class="mb-1">Your request is <span class="badge badge-info">pending</span> </h6>
                                                             <small class="d-block">{{ police_req.time_done }}</small>
 													    </div>
-                                                        {% else %}
+                                                        {% elif police_req.police_status == 'denied' %}
                                                         <div class="media-body">
                                                             <h6 class="mb-1">Your request is <span class="badge badge-danger">Denied</span> </h6>
+                                                            <small class="d-block">{{ police_req.time_done }}</small>
+													    </div>
+                                                        {% else %}
+                                                        <div class="media-body">
+                                                            <h6 class="mb-1">Your request is <span class="badge badge-info">no request</span> </h6>
                                                             <small class="d-block">{{ police_req.time_done }}</small>
 													    </div>
                                                     {% endif %}

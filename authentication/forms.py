@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from authentication.models import Profile
 
 User = get_user_model()
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
@@ -124,3 +125,25 @@ class PasswordConfirmForm(forms.Form):
         return cleaned_data
 
 
+# update profile ==================== update main profile
+
+class UpdateMainForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['name', 'phone_number', ]
+
+
+class UpdateProfileForm(forms.ModelForm):
+    user_image = forms.ImageField(label='Profile picture', required=False)
+    id_number = forms.IntegerField(label='ID number', required=False)
+    date_of_birth = forms.DateField(
+        widget=forms.TextInput(
+            attrs={'type': 'date'}
+        ),
+        label='Date of Birth',
+        required=False
+    )
+
+    class Meta:
+        model = Profile
+        fields = ['user_image', 'date_of_birth', 'id_number', ]

@@ -10,7 +10,7 @@ from car_plate.models import Captured, Dummy, Unregistered_car, Charged_car_offi
 from django.utils import timezone
 from authentication.decorators import unauthenticated_user, is_a_police_user
 from authentication.utilis import send_sms, send_pin
-from authentication.forms import NewPinForm, ResetPasswordForm, PasswordConfirmForm
+from authentication.forms import NewPinForm, ResetPasswordForm, PasswordConfirmForm, UpdateMainForm, UpdateProfileForm
 from codes.models import Code
 from codes.code_request import request_pin
 from authentication.models import Reset_password_request
@@ -93,6 +93,7 @@ def verify(request):
     pk = request.session.get('pk')
     if pk:
         user = User.objects.get(pk=pk)
+        print("user-------------------------", user)
         phone_number = user.phone_number
         # code = Code.objects.g
         code = user.code
@@ -110,13 +111,18 @@ def verify(request):
                 if str(code) == num:  # the reason why this line of code sometime it will not work is because in the model Code in app code we returned number and user for testing purpose but if we return number only ti will work for sure
                     code.save()
                     User.objects.filter(phone_number=phone_number).update(is_verified=True)
+                    del request.session['pk']
                     return redirect('login')
+
                 elif str(code.number) == num:
                     User.objects.filter(phone_number=phone_number).update(is_verified=True)
+                    del request.session['pk']
                     return redirect('login')
                 else:
                     messages.error(request, 'you verification code not match')
                     return redirect('verify')
+    else:
+        return redirect('login')
     return render(request, 'dashboard/verify.html', {'form': form})
 
 
@@ -214,7 +220,30 @@ def police_profile(request):
 
 
 def update_profile(request):
-    return render(request, 'dashboard/update_profile.html')
+    user = request.user
+    user_profile = get_object_or_404(Profile, user=user)
+    form = UpdateProfileForm(request.POST or None, instance=user_profile)
+    if request.method == 'POST':
+        form = UpdateProfileForm(request.POST or None, instance=user_profile)
+        if form.is_valid():
+            form.save('update_profile')
+    context = {
+        'form': form
+    }
+    return render(request, 'dashboard/update_profile.html', context)
+
+
+def update_main_profile(request):
+    user = request.user
+    phone_number = user.phone_number
+    user_main = get_object_or_404(User, phone_number=phone_number)
+    form = UpdateMainForm(request.POST or None, instance=user_main)
+    if form.is_valid():
+        form.save('update_main_profile')
+    context = {
+        'form': form
+    }
+    return render(request, 'dashboard/update_main_profile.html', context)
 
 
 # password reset  ============================ section
@@ -299,6 +328,25 @@ def reset_confirm_password(request):
 
 def reset_password_done(request):
     return render(request, 'dashboard/reset_password_done.html')
+
+
+# enable two factor auntentication
+
+def enable_two_f(request):
+    return render(request, 'dashboard/enable_two_f.html')
+
+
+def enable_tf_functionality(request):
+    user = request.user
+    phone_number = user.phone_number
+    if user.is_two_f_enable:
+        a = User.objects.filter(phone_number=phone_number).update(is_two_f_enable=False)
+        return redirect('enable_two_f')
+    if not user.is_two_f_enable:
+        a = User.objects.filter(phone_number=phone_number).update(is_two_f_enable=True)
+        return redirect('enable_two_f')
+
+
 # def register(request):
 #     form = UserForm()
 #     phone_number = request.POST.get('phone_number')

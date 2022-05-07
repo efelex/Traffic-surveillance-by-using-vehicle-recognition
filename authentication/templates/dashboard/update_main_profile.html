@@ -4,7 +4,7 @@
 
 
 {% block title %}
-    update
+    update main
 {% endblock %}
 
 {% load crispy_forms_tags %}
@@ -29,17 +29,12 @@
                                         {% csrf_token %}
                                         <div class="mb-3 row">
                                             <div class="col-sm-10">
-                                                {{ form.user_image|as_crispy_field  }}
+                                                {{ form.name|as_crispy_field  }}
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
                                             <div class="col-sm-10">
-                                                {{ form.date_of_birth|as_crispy_field  }}
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <div class="col-sm-10">
-                                                {{ form.id_number|as_crispy_field  }}
+                                                {{ form.phone_number|as_crispy_field  }}
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Update</button>
@@ -60,12 +55,6 @@
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item d-flex justify-content-between"><span class="mb-0">Name</span> <strong class="text-muted">{{ user.name }}	</strong></li>
 								<li class="list-group-item d-flex justify-content-between"><span class="mb-0">Phone number</span> 		<strong class="text-muted">{{ user.phone_number }}	</strong></li>
-                                {% if profile.date_of_birth %}
-                                <li class="list-group-item d-flex justify-content-between"><span class="mb-0">Date of Birth</span> 		<strong class="text-muted">{{ profile.date_of_birth }}	</strong></li>
-                                {% endif %}
-                            {% if profile.id_number %}
-                             <li class="list-group-item d-flex justify-content-between"><span class="mb-0">ID Number</span> 		<strong class="text-muted">{{ profile.id_number }}	</strong></li>
-                            {% endif %}
 							</ul>
                             <div class="card-footer border-0 mt-0">
                                 <a href="{% url 'police_profile' %}"><button class="btn btn-primary btn-lg btn-block">

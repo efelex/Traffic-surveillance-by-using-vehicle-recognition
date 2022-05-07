@@ -73,6 +73,7 @@ class User(AbstractBaseUser):
     phone_number = PhoneNumberField(unique=True)
     is_verified = models.BooleanField(default=False)
     is_verified_police = models.BooleanField(default=False)
+    is_two_f_enable = models.BooleanField(default=False)
     # username = None
 
     is_active = models.BooleanField(default=True)

@@ -18,10 +18,10 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ['phone_number', 'name', 'is_verified', 'is_verified_police', 'admin']
+    list_display = ['phone_number', 'name', 'is_verified', 'is_verified_police', 'is_two_f_enable', 'admin']
     list_filter = ['admin']
     fieldsets = (
-        (None, {'fields': ('phone_number', 'is_verified', 'password')}),
+        (None, {'fields': ('phone_number', 'is_verified', 'is_verified_police', 'password')}),
         ('Personal info', {'fields': ('name',)}),
         ('Permissions', {'fields': ('admin',)}),
     )

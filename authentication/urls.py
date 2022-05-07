@@ -27,11 +27,16 @@ urlpatterns = [
     # profile management for traffic police
     path('police_profile/', views.police_profile, name='police_profile'),
     path('update_profile/', views.update_profile, name='update_profile'),
+    path('update_main_profile/', views.update_main_profile, name='update_main_profile'),
     # password reset section
     path('reset_password/', views.reset_password, name='reset_password'),
     path('confirm_verify_pin/', views.confirm_verify_pin, name='confirm_verify_pin'),
     path('reset_confirm_password/', views.reset_confirm_password, name='reset_confirm_password'),
-    path('reset_password_done/', views.reset_password_done, name='reset_password_done')
+    path('reset_password_done/', views.reset_password_done, name='reset_password_done'),
+    # enable two factor authentication
+    path('enable_two_f/', views.enable_two_f, name='enable_two_f'),
+    # activate or disable 2 factor
+    path('enable_tf_functionality/', views.enable_tf_functionality, name='enable_tf_functionality')
 
 
 
