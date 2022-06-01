@@ -17,6 +17,8 @@ def create_official_charged(sender, instance, created, **kwargs):
         tax_charged = instance.tax_charged
         insurance_amount = instance.insurance_charged
         control_charged = instance.control_charged
+        if tax_charged > 0:
+            print(" hey you have been charged ------------------ tax -----------", tax_charged)
 
         Charged_car_official.objects.create(police=police_info, car=car_info, insurance_charged_amount=insurance_amount,
                                             tax_charged_amount=tax_charged, control_charged_amount=control_charged)
@@ -25,6 +27,7 @@ def create_official_charged(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Charged_car)
 def update_official_ban(sender, instance, created, **kwargs):
     if not created:
+        print(" hello world --------------------------------------------------- ")
         car_info = instance.car
         charged_check = Charged_car_official.objects.filter(car=car_info).first()
         if charged_check:
@@ -32,16 +35,22 @@ def update_official_ban(sender, instance, created, **kwargs):
             control_charged = instance.control_charged
             tax_charged = instance.tax_charged
 
+            print(" --------------------------control --------------------- ", control_charged)
+            print(" --------------------------tax --------------------- ", tax_charged)
+
             if charged_check.insurance_charged_amount < insurance_amount:
                 insurance_amount = instance.insurance_charged
+                print(" -----------------insurance--------------- charged ", insurance_amount)
             else:
                 insurance_amount = charged_check.insurance_charged_amount
             if charged_check.control_charged_amount < control_charged:
                 control_amount = instance.control_charged
+                print(" -----------------control--------------- charged ", control_amount)
             else:
                 control_amount = charged_check.control_charged_amount
             if charged_check.tax_charged_amount < tax_charged:
                 tax_amount = instance.tax_charged
+                print(" -----------------tax--------------- charged ", tax_amount)
             else:
                 tax_amount = charged_check.tax_charged_amount
 

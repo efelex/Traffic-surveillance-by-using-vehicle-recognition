@@ -89,6 +89,7 @@ class Captured(models.Model):
 
     class Meta:
         verbose_name_plural = 'Captured'
+        ordering = ['-time_done']
 
 
 class Charged_car(models.Model):
@@ -97,9 +98,9 @@ class Charged_car(models.Model):
     insurance_charged = models.PositiveIntegerField(default=0)
     tax_charged = models.PositiveIntegerField(default=0)
     control_charged = models.PositiveIntegerField(default=0)
-    insurance_ban_expire = models.DateField(default=now, blank=True, null=True)
-    control_ban_expire = models.DateField(default=now, blank=True, null=True)
-    tax_ban_expire = models.DateField(default=now, blank=True, null=True)
+    insurance_ban_expire = models.DateField(blank=True, null=True)
+    control_ban_expire = models.DateField(blank=True, null=True)
+    tax_ban_expire = models.DateField(blank=True, null=True)
     time_done = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -158,12 +159,12 @@ class Police_request(models.Model):
         ('pending', 'pending'),
         ('denied', 'denied')
     ]
-    police = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    police = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     police_status = models.CharField(max_length=50, choices=status_check)
     time_done = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.police.name} ----- {self.police_status}'
+        return f'{self.police_status}'
 
     class Meta:
         verbose_name_plural = "Police Request"

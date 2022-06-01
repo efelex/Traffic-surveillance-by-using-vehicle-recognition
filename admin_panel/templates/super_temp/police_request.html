@@ -1,0 +1,76 @@
+
+{% extends 'super_police/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    home
+{% endblock %}
+
+
+{% block content %}
+        <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+
+				<div class="row">
+                    <div class="col-xl-12 col-lg-12 col-xxl-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">All Police request</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive recentOrderTable">
+                                    <table class="table verticle-middle table-responsive-md" id="example4">
+                                        <thead>
+
+                                            <tr>
+                                                <th scope="col">No.</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Phone</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                        {% for police_request in police_request %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+												<td>{{ police_request.police.name }}</td>
+                                                <td>{{ police_request.police.phone_number }}</td>
+                                                {% if police_request.police_status == 'approved' %}
+                                                <td><span class="badge badge-rounded badge-primary">verified</span></td>
+                                                {% elif police_request.police_status == 'denied' %}
+                                                <td><span class="badge badge-rounded badge-danger">denied</span></td>
+                                                {% else %}
+                                                <td><span class="badge badge-rounded badge-warning">pending</span></td>
+                                                {% endif %}
+                                                <td>
+                                                    <div class="dropdown custom-dropdown mb-0">
+                                                        <div class="btn sharp btn-primary tp-btn" data-bs-toggle="dropdown">
+															<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"/><circle fill="#000000" cx="12" cy="5" r="2"/><circle fill="#000000" cx="12" cy="12" r="2"/><circle fill="#000000" cx="12" cy="19" r="2"/></g></svg>
+														</div>
+														<div class="dropdown-menu dropdown-menu-end">
+                                                            <a class="dropdown-item text-success" href="{% url 'police_request_approve' police_request.id %}">Approve</a>
+                                                            <a class="dropdown-item text-danger" href="{% url 'police_request_denied' police_request.id %}">Deny</a>
+                                                            <a class="dropdown-item text-info" href="{% url 'admin_email_compose' police_request.police.id %}">Message</a>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            </div>
+        </div>
+
+
+{% endblock %}

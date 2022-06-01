@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    captured
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+
+				<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Detected status</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example4" class="display" style="min-width: 845px">
+                                        <thead>
+                                            <tr>
+                                                <th>Plate number</th>
+                                                <th>Driver name</th>
+                                                <th>Insurance status</th>
+                                                <th>Control status </th>
+												<th>Tax status </th>
+												<th>Date </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for car in car_status %}
+                                            <tr>
+                                                <td>{{ car.car.plate_number }}</td>
+                                                <td>{{ car.car.owner_name }}</td>
+                                                <td>
+                                                    {% if car.insurance_ban_expire is None %}
+                                                        <span class="badge light badge-success">free</span>
+                                                    {% elif car.insurance_ban_expire > now %}
+                                                            <span class="badge light badge-warning">pending</span>
+                                                    {% else %}
+                                                    <span class="badge light badge-danger">danger</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if car.control_ban_expire is None %}
+                                                        <span class="badge light badge-success">free</span>
+                                                    {% elif car.control_ban_expire > now %}
+                                                        <span class="badge light badge-warning">pending</span>
+                                                    {% else %}
+                                                    <span class="badge light badge-danger">danger</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if car.tax_ban_expire is None %}
+                                                        <span class="badge light badge-success">free</span>
+                                                    {% elif car.tax_ban_expire > now %}
+                                                        <span class="badge light badge-warning">pending</span>
+                                                    {% else %}
+                                                             <span class="badge light badge-danger">danger</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ car.time_done }}</td>
+
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            </div>
+        </div>
+{% endblock %}

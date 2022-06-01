@@ -5,8 +5,10 @@ from car_plate.models import Car_registration, Insurance, Car_Control, Tax, Capt
     Dummy, Unregistered_car
 from datetime import timedelta
 from datetime import datetime
-import cv2
-import numpy as np
+from django.contrib.auth.decorators import login_required
+from authentication.decorators import unauthenticated_user
+from django.db.models import Q
+from authentication.utilis import send_charged_sms
 
 now = timezone.now()
 
@@ -15,11 +17,12 @@ waranty_expire = future_date.date()
 
 
 # Create your views here.
-
+@login_required(login_url='login')
+@unauthenticated_user
 def detect_car(request):
     user = request.user
     # plate_number = plate_detect()
-    plate_number = 'RAD666T'
+    plate_number = 'RAB472X'
     user_police_road = request.user  # police who is in the road
     # if plate number is not dummy
     if not plate_number == 'DUMMY':
@@ -171,17 +174,33 @@ def detect_car(request):
                     if charged_offic_check.insurance_charged_amount < insurance_amount:
                         insurance_amount = insurance_amount
                         insurance_exp = charging_temporaly.insurance_ban_expire
+                        # message ============ phase ================ driver
+                        name = charged_offic_check.car.owner_name
+                        amount = insurance_amount
+                        date = insurance_exp
+                        status = 'Insurance'
+                        phone_number = charged_offic_check.car.owner_phone_number
+                        # send_charged_sms(name, amount, date, status, phone_number)
+                        print(" --------------------------insurance -------charged-------------- ", insurance_amount)
                     else:
                         insurance_amount = charged_offic_check.insurance_charged_amount
                         insurance_exp = charged_offic_check.insurance_tole_expire
                     if charged_offic_check.control_charged_amount < control_charged:
                         control_amount = control_charged
                         control_exp = charging_temporaly.control_ban_expire
+                        # message ============ phase ================ driver
+                        name = charged_offic_check.car.owner_name
+                        amount = control_amount
+                        date = control_exp
+                        status = 'Control'
+                        phone_number = charged_offic_check.car.owner_phone_number
+                        # send_charged_sms(name, amount, date, status, phone_number)
+                        print(" --------------------------control -------charged-------------- ", control_amount)
                     else:
                         control_amount = charged_offic_check.control_charged_amount
                         control_exp = charged_offic_check.control_tole_expire
-                    print("charged -----------------------", charged_offic_check.tax_charged_amount)
-                    print("tax_charged ---------------------------------------------", tax_charged)
+                    # print("charged -----------------------", charged_offic_check.tax_charged_amount)
+                    # print("tax_charged ---------------------------------------------", tax_charged)
                     '''
                     here we used this expression different for other because this tax is created before the other one it make difficult
                     for our signal file py to update all data automatically sp we require another query to update to charged_car_official
@@ -191,10 +210,23 @@ def detect_car(request):
                     
                     '''
                     if charged_offic_check.tax_charged_amount < tax_charged or charged_offic_check.tax_charged_amount == tax_charged:
-                        if charged_offic_check.tax_tole_expire:
+                        if charged_offic_check.tax_charged_amount < tax_charged:
+                            tax_amount = tax_charged
+                            tax_exp = charged_offic_check.tax_tole_expire
+                            # message ============ phase ================ driver
+                            name = charged_offic_check.car.owner_name
+                            amount = tax_amount
+                            date = tax_exp
+                            status = 'Tax'
+                            phone_number = charged_offic_check.car.owner_phone_number
+                            # send_charged_sms(name, amount, date, status, phone_number)
+                            print(" --------------------------tax -------charged-------------- ", tax_charged)
+
+                        elif charged_offic_check.tax_tole_expire:
                             tax_amount = tax_charged
                             tax_exp = charged_offic_check.tax_tole_expire
                         else:
+
                             tax_amount = tax_charged
                             tax_exp = charging_temporaly.tax_ban_expire
                     else:
@@ -233,8 +265,8 @@ def detect_car(request):
                 # save car which is not registered with avoiding duplication
                 check_unregistered = Unregistered_car.objects.filter(plate_number=plate_number).first()
                 if check_unregistered:
-                    Unregistered_car.objects.create(police=check_unregistered.police,
-                                                    plate_number=check_unregistered.plate_number, danger=True)
+                    Unregistered_car.objects.create(police=user_police_road,
+                                                    plate_number=plate_number, danger=True)
                 else:
                     Unregistered_car.objects.create(police=user_police_road, plate_number=plate_number, danger=True)
 
@@ -249,6 +281,8 @@ def detect_car(request):
     return redirect('dashboard')
 
 
+@login_required(login_url='login')
+@unauthenticated_user
 def automatic_detect_car(request):
     user = request.user
     # plate_number = automatic_detect()
@@ -448,3 +482,35 @@ def automatic_detect_car(request):
         Dummy.objects.create(police=user_police_road)
         print("dummy")
     return redirect('automatic_detect_car')
+
+
+# statistics =================== section ==============================
+@login_required(login_url='login')
+@unauthenticated_user
+def all_car_detection(request):
+    user = request.user
+    all_car = Captured.objects.filter(police=user).order_by('-time_done')
+    context = {
+        'car': all_car
+    }
+    return render(request, 'all_car_detection.html', context)
+
+@login_required(login_url='login')
+@unauthenticated_user
+def urgence_car(request):
+    all_end_varidation = Charged_car_official.objects.filter(Q(insurance_tole_expire__lt=now) |Q(control_tole_expire__lt=now) |Q(tax_tole_expire__lte=now))
+    context = {
+        'urgence': all_end_varidation,
+        'now': now.date()
+    }
+    return render(request, 'urgence_car.html', context)
+
+@login_required(login_url='login')
+@unauthenticated_user
+def charged_car_detected(request):
+    user = request.user
+    car_detected_status = Charged_car.objects.filter(police=user)
+    context = {
+        'car_status': car_detected_status
+    }
+    return render(request, 'charged_car_detected.html', context)

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    captured
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+
+				<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Detected</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example4" class="display" style="min-width: 845px">
+                                        <thead>
+                                            <tr>
+                                                <th>Plate number</th>
+                                                <th>Driver name</th>
+                                                <th>Phone number</th>
+                                                <th>Email </th>
+												<th>Id </th>
+												<th>Date </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for car in car %}
+                                            <tr>
+                                                <td>{{ car.car.plate_number }}</td>
+                                                <td>{{ car.car.owner_name }}</td>
+                                                <td>{{ car.car.owner_phone_number }}</td>
+                                                <td>{{ car.car.owner_email }}</td>
+                                                <td>{{ car.car.Owner_Id }}</td>
+                                                <td>{{ car.time_done }}</td>
+
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            </div>
+        </div>
+{% endblock %}

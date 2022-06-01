@@ -14,6 +14,7 @@ from authentication.forms import NewPinForm, ResetPasswordForm, PasswordConfirmF
 from codes.models import Code
 from codes.code_request import request_pin
 from authentication.models import Reset_password_request
+from django.contrib.auth.decorators import login_required
 
 now = timezone.now()
 
@@ -33,14 +34,23 @@ def signin(request):
         username = request.POST.get('phone_number')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        if user is not None and user.is_verified:
-            login(request, user)
-            return redirect('dashboard')
+        if user is not None and user.is_verified and user.is_two_f_enable:
+            request.session['pk'] = user.pk
+            return redirect('verify_pin_login')
+        if user is not None and not user.is_two_f_enable:
+            if user.is_verified:
+                login(request, user)
+                return redirect('dashboard')
+            elif user is not None and not user.is_verified:
+                messages.info(request, 'please verify your account')
+                return redirect('verify')
+
+
+            else:
+                messages.info(request, 'Username or password is incorrect')
         elif user is not None and not user.is_verified:
             messages.info(request, 'please verify your account')
             return redirect('verify')
-
-
         else:
             messages.info(request, 'Username or password is incorrect')
     context = {
@@ -49,6 +59,43 @@ def signin(request):
     return render(request, 'dashboard/login.html', context)
 
 
+# this will be applied when 2fa is enabled on
+def verify_pin_login(request):
+    form = CodeForm(request.POST or None)
+    pk = request.session.get('pk')
+    if pk:
+        user = User.objects.get(pk=pk)
+        code = user.code
+        code_user = f"{user.name}: {user.code}"
+        if not request.POST:
+            print("code is ", code_user)
+
+            # send code through intouch sms
+
+            # send_sms(code_user, user.phone_number)
+        if form.is_valid():
+            num = form.cleaned_data.get('number')
+            print("num -------------", num)
+            print("code ----------------", code)
+            if str(code) == num:
+                code.save()
+                login(request, user)
+                del request.session['pk']
+                return redirect('dashboard')
+            elif str(code.number) == num:
+                code.save()
+                login(request, user)
+                del request.session['pk']
+                return redirect('dashboard')
+            else:
+                messages.error(request, "code pin not match")
+    else:
+        return redirect('login')
+
+    return render(request, 'dashboard/verify_pin_login.html')
+
+
+# end of 2fa accept functionality
 def signup(request):
     form = UserForm()
     phone_number = request.POST.get('phone_number')
@@ -126,6 +173,7 @@ def verify(request):
     return render(request, 'dashboard/verify.html', {'form': form})
 
 
+@login_required(login_url='login')
 @unauthenticated_user
 def dashboard(request):
     user = request.user
@@ -145,6 +193,8 @@ def dashboard(request):
     return render(request, 'dashboard/home.html', context)
 
 
+@login_required(login_url='login')
+@unauthenticated_user
 def warning_danger(request, id):
     charged_danger = get_object_or_404(Charged_car_official, id=id)
     car_description = charged_danger.car
@@ -164,6 +214,7 @@ def warning_danger(request, id):
 
 
 @is_a_police_user
+@login_required(login_url='login')
 def unverified_police(request):
     police_user = request.user
     try:
@@ -177,6 +228,7 @@ def unverified_police(request):
     return render(request, 'dashboard/unverified_police.html', context)
 
 
+@login_required(login_url='login')
 def police_request_status(request):
     police_user = request.user
     all_request = Police_request.objects.filter(police=police_user).first()
@@ -215,16 +267,51 @@ def request_new_pin(request):
     return render(request, 'dashboard/request_pin.html')
 
 
+@login_required(login_url='login')
 def police_profile(request):
-    return render(request, 'dashboard/police_profile.html')
+    user = request.user
+    user_profile = get_object_or_404(Profile, user=user)
+    user_num = 40
+    if user_profile.user_image:
+        user_image_n = 10
+    else:
+        user_image_n = 0
+    if user_profile.date_of_birth:
+        date_birth_n = 10
+    else:
+        date_birth_n = 0
+    if user_profile.id_number:
+        id_number_n = 10
+    else:
+        id_number_n = 0
+    if user_profile.email:
+        email_n = 10
+    else:
+        email_n = 0
+    if user_profile.rank:
+        rank_n = 10
+    else:
+        rank_n = 0
+    if user_profile.residence:
+        residence_n = 10
+    else:
+        residence_n = 0
+    profile_complete = user_num + user_image_n + date_birth_n + id_number_n + email_n + rank_n + residence_n
+    print(" -------------------------------- ", profile_complete)
+    context = {
+        'number_complete': profile_complete
+    }
+
+    return render(request, 'dashboard/police_profile.html', context)
 
 
+@login_required(login_url='login')
 def update_profile(request):
     user = request.user
     user_profile = get_object_or_404(Profile, user=user)
     form = UpdateProfileForm(request.POST or None, instance=user_profile)
     if request.method == 'POST':
-        form = UpdateProfileForm(request.POST or None, instance=user_profile)
+        form = UpdateProfileForm(request.POST or None, request.FILES or None, instance=user_profile)
         if form.is_valid():
             form.save('update_profile')
     context = {
@@ -233,6 +320,7 @@ def update_profile(request):
     return render(request, 'dashboard/update_profile.html', context)
 
 
+@login_required(login_url='login')
 def update_main_profile(request):
     user = request.user
     phone_number = user.phone_number
@@ -330,22 +418,27 @@ def reset_password_done(request):
     return render(request, 'dashboard/reset_password_done.html')
 
 
-# enable two factor auntentication
+# enable two-factor authentication
 
+@login_required(login_url='login')
+@unauthenticated_user
 def enable_two_f(request):
     return render(request, 'dashboard/enable_two_f.html')
 
 
+@login_required(login_url='login')
+@unauthenticated_user
 def enable_tf_functionality(request):
     user = request.user
     phone_number = user.phone_number
     if user.is_two_f_enable:
-        a = User.objects.filter(phone_number=phone_number).update(is_two_f_enable=False)
+        User.objects.filter(phone_number=phone_number).update(is_two_f_enable=False)
+        messages.success(request, "2FA disabled successful")
         return redirect('enable_two_f')
     if not user.is_two_f_enable:
-        a = User.objects.filter(phone_number=phone_number).update(is_two_f_enable=True)
+        User.objects.filter(phone_number=phone_number).update(is_two_f_enable=True)
+        messages.success(request, '2FA enabled successful')
         return redirect('enable_two_f')
-
 
 # def register(request):
 #     form = UserForm()

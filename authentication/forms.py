@@ -143,7 +143,10 @@ class UpdateProfileForm(forms.ModelForm):
         label='Date of Birth',
         required=False
     )
+    email = forms.EmailField(label='Email', required=False)
+    rank = forms.CharField(label='Rank', required=False)
+    residence = forms.CharField(label='Residence', required=False)
 
     class Meta:
         model = Profile
-        fields = ['user_image', 'date_of_birth', 'id_number', ]
+        fields = ['user_image', 'date_of_birth', 'id_number', 'email', 'rank', 'residence', ]

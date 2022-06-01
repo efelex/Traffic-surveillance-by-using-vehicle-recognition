@@ -1,0 +1,53 @@
+{% extends 'super_police/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    all captured
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+
+				<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"> All Detected</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example4" class="display" style="min-width: 1200px">
+                                        <thead>
+                                            <tr>
+                                                <th>Plate number</th>
+                                                <th>Police</th>
+                                                <th>Warning</th>
+												<th>Date </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for car in car %}
+                                            <tr>
+                                                <td>{{ car.plate_number }}</td>
+                                                <td>{{ car.police.name }}</td>
+                                                {% if car.danger %}
+                                                <td><span class="badge badge-rounded badge-danger">danger</span></td>
+                                                {% endif %}
+                                                <td>{{ car.time_done }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            </div>
+        </div>
+{% endblock %}

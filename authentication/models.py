@@ -118,6 +118,9 @@ class Profile(models.Model):
     user_image = models.ImageField(upload_to='images/', default='profile.png', )
     date_of_birth = models.DateField(max_length=250, blank=True, null=True)
     id_number = models.PositiveIntegerField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    rank = models.CharField(max_length=50, blank=True, null=True)
+    residence = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.name} -- {self.user.phone_number}'

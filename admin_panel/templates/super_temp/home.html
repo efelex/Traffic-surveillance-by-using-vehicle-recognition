@@ -1,0 +1,214 @@
+{% extends 'super_police/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    home
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+				<div class="row">
+
+                    <div class="col-xl-3 col-xxl-4 col-lg-6 col-sm-6">
+						<div class="widget-stat card bg-primary">
+							<div class="card-body  p-4">
+								<div class="media">
+									<span class="me-3">
+										<i class="la la-users"></i>
+									</span>
+									<div class="media-body text-white">
+										<p class="mb-1">Total Police</p>
+										<h3 class="text-white">{{ all_police }}</h3>
+										<small>All verified police</small>
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-xl-3 col-xxl-4 col-lg-6 col-sm-6">
+						<div class="widget-stat card bg-info">
+							<div class="card-body p-4">
+								<div class="media">
+									<span class="me-3">
+										<i class="la la-user"></i>
+									</span>
+									<div class="media-body text-white">
+										<p class="mb-1">Total police request</p>
+										<h3 class="text-white">{{ all_request }}</h3>
+										<small>All police made request</small>
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-xl-3 col-xxl-4 col-lg-6 col-sm-6">
+						<div class="widget-stat card bg-danger ">
+							<div class="card-body p-4">
+								<div class="media">
+									<span class="me-3">
+										<i class="la la-dollar"></i>
+									</span>
+									<div class="media-body text-white">
+										<p class="mb-1">Total charged</p>
+										<h3 class="text-white">{{ total_charged_car }}</h3>
+										<small>All car charged</small>
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+
+
+                    <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-6">
+						<div class="widget-stat card bg-info">
+							<div class="card-body p-4">
+								<div class="media">
+									<span class="me-3">
+										<img src="{% static 'dashboard/images/car.png' %}" style="height: 70px; width: 70px;">
+									</span>
+									<div class="media-body text-white text-end">
+										<p class="mb-1">Total Detected</p>
+                                        {% if captured %}
+										<h3 class="text-white">{{ captured }}</h3>
+                                        {% else %}
+                                        <h3 class="text-white">0</h3>
+                                        {% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+					<div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-6">
+						<div class="widget-stat card bg-success">
+							<div class="card-body p-4">
+								<div class="media">
+									<span class="me-3">
+										<img src="{% static 'dashboard/images/car.png' %}" style="height: 70px; width: 70px;">
+									</span>
+									<div class="media-body text-white text-end">
+										<p class="mb-1">Success</p>
+                                        {% if success %}
+										<h3 class="text-white">{{ success }}</h3>
+                                        {% else %}
+                                        <h3 class="text-white">0</h3>
+                                        {% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-6">
+						<div class="widget-stat card bg-danger">
+							<div class="card-body  p-4">
+								<div class="media">
+									<span class="me-3">
+										<img src="{% static 'dashboard/images/car.png' %}" style="height: 70px; width: 70px;">
+									</span>
+									<div class="media-body text-white text-end">
+										<p class="mb-1">Unregistered</p>
+                                        {% if unregistered %}
+										<h3 class="text-white">{{ unregistered }}</h3>
+                                        {% else %}
+                                        <h3 class="text-white">0</h3>
+                                        {% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-6">
+                        <div class="widget-stat card">
+							<div class="card-body p-4">
+								<div class="media ai-icon">
+									<span class="me-3 bgl-success text-success">
+										<img src="{% static 'dashboard/images/car.png' %}" style="height: 70px; width: 70px;">
+									</span>
+									<div class="media-body">
+										<p class="mb-1">Dummy</p>
+                                        {% if dummy %}
+										<h4 class="mb-0">{{ dummy }}</h4>
+                                        {% else %}
+                                        <h4 class="mb-0">0</h4>
+                                        {% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+
+                    <div class="col-xl-3 col-xxl-3 col-lg-6 col-sm-6">
+						<div class="widget-stat card bg-primary">
+							<div class="card-body  p-4">
+								<div class="media">
+									<span class="me-3">
+										<i class="la la-users"></i>
+									</span>
+									<div class="media-body text-white">
+										<p class="mb-1">Insurance</p>
+										<h3 class="text-white">{{ insurance }}</h3>
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-xl-3 col-xxl-3 col-lg-6 col-sm-6">
+						<div class="widget-stat card bg-info">
+							<div class="card-body p-4">
+								<div class="media">
+									<span class="me-3">
+										<i class="la la-user"></i>
+									</span>
+									<div class="media-body text-white">
+										<p class="mb-1">Tax</p>
+										<h3 class="text-white">{{ tax }}</h3>
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-xl-3 col-xxl-3 col-lg-6 col-sm-6">
+						<div class="widget-stat card bg-primary">
+							<div class="card-body  p-4">
+								<div class="media">
+									<span class="me-3">
+										<i class="la la-users"></i>
+									</span>
+									<div class="media-body text-white">
+										<p class="mb-1">Control</p>
+										<h3 class="text-white">{{ control }}</h3>
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-xl-3 col-xxl-3 col-lg-6 col-sm-6">
+						<div class="widget-stat card bg-danger ">
+							<div class="card-body p-4">
+								<div class="media">
+									<span class="me-3">
+										<i class="la la-dollar"></i>
+									</span>
+									<div class="media-body text-white">
+										<p class="mb-1">Urgence</p>
+										<h3 class="text-white">{{ urgence }}</h3>
+										<small>Car their warranty finished</small>
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+
+
+
+
+				</div>
+            </div>
+        </div>
+
+{% endblock %}

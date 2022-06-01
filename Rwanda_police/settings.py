@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'authentication',
     'codes',
     'phonenumber_field',
-    'car_plate.apps.CarPlateConfig'
+    'car_plate.apps.CarPlateConfig',
+    'admin_panel.apps.AdminPanelConfig'
 
 ]
 
@@ -72,7 +73,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'authentication.context_processors.extras'
+                'authentication.context_processors.extras',
+                'authentication.context_processors.message_review'
             ],
         },
     },
@@ -117,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Cairo'
 
 USE_I18N = True
 

@@ -7,6 +7,8 @@ from car_plate.views import *
 urlpatterns = [
     path('', views.home, name='home'),
     path('login/', views.signin, name='login'),
+    # this will be toggled when 2fa is enabled
+    path('verify_pin_login/', views.verify_pin_login, name='verify_pin_login'),
     path('signup/', views.signup, name='signup'),
     path('verify/', views.verify, name='verify'),
     path('dashboard/', views.dashboard, name='dashboard'),
@@ -36,7 +38,12 @@ urlpatterns = [
     # enable two factor authentication
     path('enable_two_f/', views.enable_two_f, name='enable_two_f'),
     # activate or disable 2 factor
-    path('enable_tf_functionality/', views.enable_tf_functionality, name='enable_tf_functionality')
+    path('enable_tf_functionality/', views.enable_tf_functionality, name='enable_tf_functionality'),
+
+    # area of statistics and the data ==========================
+    path('captured/', all_car_detection, name='all_car_detection'),
+    path('urgence/', urgence_car, name='urgence_car'),
+    path('charged_car_detected/', charged_car_detected, name='charged_car_detected')
 
 
 

@@ -25,7 +25,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="basic-form">
-                                    <form action="" method="POST">
+                                    <form action="" method="POST" enctype="multipart/form-data">
                                         {% csrf_token %}
                                         <div class="mb-3 row">
                                             <div class="col-sm-10">
@@ -40,6 +40,21 @@
                                         <div class="mb-3 row">
                                             <div class="col-sm-10">
                                                 {{ form.id_number|as_crispy_field  }}
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <div class="col-sm-10">
+                                                {{ form.email|as_crispy_field  }}
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <div class="col-sm-10">
+                                                {{ form.rank|as_crispy_field  }}
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <div class="col-sm-10">
+                                                {{ form.residence|as_crispy_field  }}
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Update</button>

@@ -1,0 +1,65 @@
+{% extends 'super_police/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    Control
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+
+				<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Car Control</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example4" class="display" style="min-width: 645px">
+                                        <thead>
+                                            <tr>
+                                                <th>Tax name</th>
+                                                <th>plate number</th>
+                                                <th>Owner name</th>
+                                                <th>Owner phone</th>
+                                                <th>Tax start </th>
+												<th>Tax end </th>
+                                                <th>Status </th>
+												<th>Time done </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for tax in tax %}
+                                            <tr>
+                                                <td>{{ tax.tax_name }}</td>
+                                                <td>{{ tax.car.plate_number }}</td>
+                                                <td>{{ tax.car.owner_name }}</td>
+                                                <td>{{ tax.car.owner_phone_number }}</td>
+                                                <td>{{ tax.tax_start }}</td>
+                                                <td>{{ tax.tax_end}}</td>
+                                                {% if tax.tax_end < now_date %}
+                                                    <td><span class="badge badge-rounded badge-danger">expired</span></td>
+                                                {% else %}
+                                                <td><span class="badge badge-rounded badge-primary">live</span></td>
+                                                {% endif %}
+                                                <td>{{ tax.time_done }}</td>
+
+
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            </div>
+        </div>
+{% endblock %}
