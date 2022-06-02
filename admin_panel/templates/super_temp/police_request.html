@@ -30,12 +30,13 @@
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Phone</th>
                                                 <th scope="col">Status</th>
+                                                <th scope="col">Complete</th>
                                                 <th scope="col">Action</th>
                                             </tr>
 
                                         </thead>
                                         <tbody>
-                                        {% for police_request in police_request %}
+                                        {% for police_request, progress in police_request %}
                                             <tr>
                                                 <td>{{ forloop.counter }}</td>
 												<td>{{ police_request.police.name }}</td>
@@ -47,6 +48,7 @@
                                                 {% else %}
                                                 <td><span class="badge badge-rounded badge-warning">pending</span></td>
                                                 {% endif %}
+                                                <td class="text-success">{{ progress }}%</td>
                                                 <td>
                                                     <div class="dropdown custom-dropdown mb-0">
                                                         <div class="btn sharp btn-primary tp-btn" data-bs-toggle="dropdown">

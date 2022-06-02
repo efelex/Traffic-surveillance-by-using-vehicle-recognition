@@ -77,9 +77,42 @@ def adminlogout(request):
 
 
 def police_request_list(request):
+    user = request.user
     all_police_request = Police_request.objects.all()
+    all_profile = Profile.objects.all()
+    profile_progress = []
+    for po in all_police_request:
+        user_profile = get_object_or_404(Profile, user=po.police)
+        user_num = 40
+        if user_profile.user_image:
+            user_image_n = 10
+        else:
+            user_image_n = 0
+        if user_profile.date_of_birth:
+            date_birth_n = 10
+        else:
+            date_birth_n = 0
+        if user_profile.id_number:
+            id_number_n = 10
+        else:
+            id_number_n = 0
+        if user_profile.email:
+            email_n = 10
+        else:
+            email_n = 0
+        if user_profile.rank:
+            rank_n = 10
+        else:
+            rank_n = 0
+        if user_profile.residence:
+            residence_n = 10
+        else:
+            residence_n = 0
+        profile_complete = user_num + user_image_n + date_birth_n + id_number_n + email_n + rank_n + residence_n
+        profile_progress.append(profile_complete)
+        print(f"com -------------------------------", profile_progress)
     context = {
-        'police_request': all_police_request
+        'police_request': zip(all_police_request, profile_progress),
     }
     return render(request, 'super_temp/police_request.html', context)
 

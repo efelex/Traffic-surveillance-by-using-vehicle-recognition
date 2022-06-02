@@ -41,6 +41,7 @@ def message_review(request):
         user_small = user_small[0][:2].upper()
     except:
         message_all = []
+        user_small = 'AA'
     return {
         'message_all': message_all,
         'user_small': user_small
