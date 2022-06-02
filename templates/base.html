@@ -89,7 +89,8 @@
 								<ul class="contacts">
 									<li class="name-first-letter">MESSAGE</li>
                                     {% for message_all in message_all %}
-									<li>
+									<a href="{% url 'new_home_message_read' message_all.id %}">
+                                    <li>
 										<div class="d-flex bd-highlight">
 											<div class="img_cont success">{{ user_small }}<i class="icon fa-birthday-cake"></i></div>
 											<div class="user_info">
@@ -98,6 +99,7 @@
 											</div>
 										</div>
 									</li>
+                                    </a>
                                     {% endfor %}
 								</ul>
 							</div>

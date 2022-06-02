@@ -43,7 +43,10 @@ urlpatterns = [
     # area of statistics and the data ==========================
     path('captured/', all_car_detection, name='all_car_detection'),
     path('urgence/', urgence_car, name='urgence_car'),
-    path('charged_car_detected/', charged_car_detected, name='charged_car_detected')
+    path('charged_car_detected/', charged_car_detected, name='charged_car_detected'),
+
+    # message from admin
+    path('new_home_message/', new_home_message, name='new_home_message')
 
 
 

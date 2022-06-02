@@ -1,6 +1,6 @@
 from django.urls import path
 from admin_panel.views import *
-
+from car_plate.views import new_home_message_read
 
 urlpatterns = [
     path('', adminlogin, name='adminlogin'),
@@ -21,5 +21,7 @@ urlpatterns = [
     # email sent section and compose
     path('message/<int:id>/', admin_email_compose, name='admin_email_compose'),
     path('home_message/', home_message, name='home_message'),
-    path('home_message_read/<int:id>/', home_message_read, name='home_message_read')
+    path('home_message_read/<int:id>/', home_message_read, name='home_message_read'),
+    # home new message read
+    path('new_home_message_read/<int:id>/', new_home_message_read, name='new_home_message_read')
 ]

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, loader
+from django.shortcuts import render, redirect, loader, get_object_or_404
 from django.utils import timezone
 from car_plate.plate_detection import plate_detect, automatic_detect
 from car_plate.models import Car_registration, Insurance, Car_Control, Tax, Captured, Charged_car, Charged_car_official, \
@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from authentication.decorators import unauthenticated_user
 from django.db.models import Q
 from authentication.utilis import send_charged_sms
+from admin_panel.models import Send_message
+from authentication.models import Profile
 
 now = timezone.now()
 
@@ -495,15 +497,18 @@ def all_car_detection(request):
     }
     return render(request, 'all_car_detection.html', context)
 
+
 @login_required(login_url='login')
 @unauthenticated_user
 def urgence_car(request):
-    all_end_varidation = Charged_car_official.objects.filter(Q(insurance_tole_expire__lt=now) |Q(control_tole_expire__lt=now) |Q(tax_tole_expire__lte=now))
+    all_end_varidation = Charged_car_official.objects.filter(
+        Q(insurance_tole_expire__lt=now) | Q(control_tole_expire__lt=now) | Q(tax_tole_expire__lte=now))
     context = {
         'urgence': all_end_varidation,
         'now': now.date()
     }
     return render(request, 'urgence_car.html', context)
+
 
 @login_required(login_url='login')
 @unauthenticated_user
@@ -514,3 +519,25 @@ def charged_car_detected(request):
         'car_status': car_detected_status
     }
     return render(request, 'charged_car_detected.html', context)
+
+
+def new_home_message(request):
+    user = request.user
+    user_phone = user.phone_number
+    all_message_home = Send_message.objects.filter(receiver_message=user_phone)
+    context = {
+        'message_all': all_message_home
+    }
+    return render(request, 'new_home_message.html', context)
+
+def new_home_message_read(request, id):
+    user = request.user
+    message_info = get_object_or_404(Send_message, id=id)
+    user_profile = get_object_or_404(Profile, user=message_info.police_user)
+    message_all_count = Send_message.objects.filter(receiver_message=user.phone_number).count()
+    context = {
+        'message_info': message_info,
+        'user_profile': user_profile,
+        'message_all_count': message_all_count
+    }
+    return render(request, 'new_home_message_read.html', context)
