@@ -23,7 +23,7 @@ class VerifyPinForm(forms.Form):
         number_code = self.cleaned_data.get('number_code')
         # print("number -----------------", number_code)
         # print("count number ---------------", len(str(number_code)))
-        if len(str(number_code)) <= 3:
+        if len(str(number_code)) <= 2:
             raise forms.ValidationError("pin must equal to 5 number")
         return number_code
 

@@ -17,7 +17,7 @@
     <title>Dashboard</title>
     <script src="https://use.fontawesome.com/b28185b517.js"></script>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'admin_driver/images/favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'admin_driver/images/policelogo.svg' %}">
     <link href="{% static 'admin_driver/vendor/jqvmap/css/jqvmap.min.css' %}" rel="stylesheet">
 	<link rel="stylesheet" href="{% static 'admin_driver/vendor/chartist/css/chartist.min.css' %}">
     <link href="{% static 'admin_driver/vendor/datatables/css/jquery.dataTables.min.css' %}" rel="stylesheet">
@@ -54,9 +54,7 @@
         ***********************************-->
         <div class="nav-header">
             <a href="" class="brand-logo">
-                <img class="logo-abbr" src="{% static 'admin_driver/images/logo.png' %}" alt="">
-                <img class="logo-compact" src="{% static 'admin_driver/images/logo-text.png' %}" alt="">
-                <img class="brand-title" src="{% static 'admin_driver/images/logo-text.png' %}" alt="">
+                <img class="brand-title" src="{% static 'admin_driver/images/policelogo.svg' %}" alt="" style="width: 100px; height: 100px;">
             </a>
 
             <div class="nav-control">
@@ -95,7 +93,7 @@
 										<span class="text-black">Hello,<strong>{{ car_detail.owner_name }}</strong></span>
 										<p class="fs-12 mb-0">Driver</p>
 									</div>
-                                    <img src="{% static 'admin_driver/images/profile/17.jpg' %}" width="20" alt=""/>
+                                    <img src="{% static 'admin_driver/images/profile/profile_person.png' %}" width="20" alt=""/>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <a href="{% url 'logout_driver' %}" class="dropdown-item ai-icon">
@@ -129,7 +127,7 @@
 							<span class="nav-text">Captured</span>
 						</a>
                     </li>
-                    <li><a class="has-arrow ai-icon" href="{% url 'driver_assign_number' %}" aria-expanded="false">
+                    <li><a class="has-arrow ai-icon" href="{% url 'driver_assign_main' %}" aria-expanded="false">
 							<i class="flaticon-381-settings-2"></i>
 							<span class="nav-text">Assign Number</span>
 						</a>

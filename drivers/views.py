@@ -64,9 +64,8 @@ def driver_dashboard(request):
     car_detail = request.session.get('car_detail')
     car_detail = get_object_or_404(Car_registration, id=car_detail)
     phone_number = car_detail.owner_phone_number
-    all_owner_car = Charged_car_official.objects.filter(
-        Q(insurance_tole_expire__lt=now) | Q(control_tole_expire__lt=now) | Q(tax_tole_expire__lte=now) & Q(
-            car__owner_phone_number=phone_number)).filter(car__owner_phone_number=phone_number)
+    all_owner_car = Charged_car_official.objects.filter(car__owner_phone_number=car_detail.owner_phone_number)
+    print("car------------------", all_owner_car)
     context = {
         'all_owner_car': all_owner_car,
         'now': now.date()
@@ -132,13 +131,23 @@ def driver_payment(request, id):
 
 
 @is_car_detail_none
-def driver_assign_number(request):
+def driver_assign_main(request):
     car_detail = request.session.get('car_detail')
-    car_detail = get_object_or_404(Car_registration, id=car_detail)
+    car_information = get_object_or_404(Car_registration, id=car_detail)
+    car_detail = Car_registration.objects.filter(owner_phone_number=car_information.owner_phone_number)
+    context = {
+        'car_detail': car_detail,
+    }
+    return render(request, 'drivers/driver_assign_main.html', context)
+
+
+@is_car_detail_none
+def driver_assign_number(request, id):
+    car_detail = get_object_or_404(Car_registration, id=id)
     form = CarAssignForm(request.POST or None, instance=car_detail)
     if form.is_valid():
         form.save()
-        return redirect('driver_assign_number')
+        return redirect('driver_assign_number', id=car_detail.id)
     context = {
         'car_detail': car_detail,
         'form': form
