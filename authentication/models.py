@@ -59,11 +59,10 @@ class UserManager(BaseUserManager):
             name,
             password=password,
         )
-
+        user.is_verified = True
+        user.is_verified_police = True
         user.staff = True
         user.admin = True
-        user.is_verified = True
-
         user.save(using=self._db)
         return user
 
@@ -81,6 +80,8 @@ class User(AbstractBaseUser):
     admin = models.BooleanField(default=False)
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['name']
+    objects = UserManager()
+
     objects = UserManager()
 
     def get_full_name(self):
@@ -111,6 +112,8 @@ class User(AbstractBaseUser):
     def is_admin(self):
         "Is the user a admin member?"
         return self.admin
+
+    objects = UserManager()
 
 
 class Profile(models.Model):

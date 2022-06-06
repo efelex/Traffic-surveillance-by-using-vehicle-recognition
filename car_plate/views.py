@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, loader, get_object_or_404
 from django.utils import timezone
 from car_plate.plate_detection import plate_detect, automatic_detect
 from car_plate.models import Car_registration, Insurance, Car_Control, Tax, Captured, Charged_car, Charged_car_official, \
-    Dummy, Unregistered_car, MoneyCharges
+    Dummy, Unregistered_car
 from datetime import timedelta
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
@@ -16,7 +16,7 @@ now = timezone.now()
 
 future_date = datetime.now() + timedelta(days=3)
 waranty_expire = future_date.date()
-money_charges = MoneyCharges.objects.all().first()
+# money_charges = MoneyCharges.objects.all().first()
 
 
 # Create your views here.
@@ -25,7 +25,7 @@ money_charges = MoneyCharges.objects.all().first()
 def detect_car(request):
     user = request.user
     # plate_number = plate_detect()
-    plate_number = 'RAB472X'
+    plate_number = 'RAD278T'
     user_police_road = request.user  # police who is in the road
     # if plate number is not dummy
     if not plate_number == 'DUMMY':
@@ -104,7 +104,8 @@ def detect_car(request):
 
                 # if tax is false means that tax expired
                 if not tax_status:
-                    tax_charged = money_charges.tax_charges
+                    # tax_charged = money_charges.tax_charges
+                    tax_charged = 500
                     charging = Charged_car.objects.filter(car=car_detected)
                     if charging:
                         Charged_car.objects.filter(car=car_detected).update(tax_charged=tax_charged,
@@ -123,7 +124,8 @@ def detect_car(request):
                                                    tax_ban_expire=tax_waranty_new)
                 # if insurance is false means that insurance expired
                 if not insurance_status:
-                    insurance_charged = money_charges.insurance_charges
+                    # insurance_charged = money_charges.insurance_charges
+                    insurance_charged = 1000
                     charging = Charged_car.objects.filter(car=car_detected)
                     if charging:
                         Charged_car.objects.filter(car=car_detected).update(insurance_charged=insurance_charged,
@@ -142,7 +144,8 @@ def detect_car(request):
                                                    insurance_ban_expire=insurance_waranty_new)
                 # if control is false means that control expired
                 if not control_status:
-                    control_charged = money_charges.control_charges
+                    # control_charged = money_charges.control_charges
+                    control_charged = 2500
                     charging = Charged_car.objects.filter(car=car_detected)
                     if charging:
                         Charged_car.objects.filter(car=car_detected).update(control_charged=control_charged,
@@ -162,7 +165,7 @@ def detect_car(request):
 
                 '''
                 we have different table captured =====> charged car then here it can be change overtime based on status from your insurance, tax, control information
-                but we have another part which created automatically by signals called Charged_car_official table so here we have infor  for all car 
+                but we have another part which created automatically by signals called Charged_car_official table so here we have inform  for all car 
                 and even it being changed when you paid the first charges 
                 so down section prevent anyone who is charged then go maybe in insurance service then paid in order that when camera capture him it will change the charges
                 so this section prevent those faults
@@ -174,7 +177,7 @@ def detect_car(request):
                     insurance_amount = charging_temporaly.insurance_charged
                     control_charged = charging_temporaly.control_charged
                     tax_charged = charging_temporaly.tax_charged
-                    if charged_offic_check.insurance_charged_amount < insurance_amount:
+                    if charged_offic_check.insurance_charged_amount < insurance_amount and charged_offic_check.insurance_charged_amount == 0:
                         insurance_amount = insurance_amount
                         insurance_exp = charging_temporaly.insurance_ban_expire
                         # message ============ phase ================ driver
@@ -183,12 +186,18 @@ def detect_car(request):
                         date = insurance_exp
                         status = 'Insurance'
                         phone_number = charged_offic_check.car.owner_phone_number
+                        phone_number_assigned = charged_offic_check.car.phone_number_assign
+                        # send message both side
                         # send_charged_sms(name, amount, date, status, phone_number)
+                        if charged_offic_check.car.phone_number_assign:
+                            print("part to give to the new renting information")
+                            # send_charged_sms(name, amount, date, status, phone_number_assigned)
+
                         print(" --------------------------insurance -------charged-------------- ", insurance_amount)
                     else:
                         insurance_amount = charged_offic_check.insurance_charged_amount
                         insurance_exp = charged_offic_check.insurance_tole_expire
-                    if charged_offic_check.control_charged_amount < control_charged:
+                    if charged_offic_check.control_charged_amount < control_charged and charged_offic_check.control_charged_amount == 0:
                         control_amount = control_charged
                         control_exp = charging_temporaly.control_ban_expire
                         # message ============ phase ================ driver
@@ -196,42 +205,33 @@ def detect_car(request):
                         amount = control_amount
                         date = control_exp
                         status = 'Control'
+                        phone_number_assigned = charged_offic_check.car.phone_number_assign
                         phone_number = charged_offic_check.car.owner_phone_number
+                        # message for both side ===============
                         # send_charged_sms(name, amount, date, status, phone_number)
+                        if charged_offic_check.car.phone_number_assign:
+                            print("part to give to the new renting information")
+                            # send_charged_sms(name, amount, date, status, phone_number_assigned)
                         print(" --------------------------control -------charged-------------- ", control_amount)
                     else:
                         control_amount = charged_offic_check.control_charged_amount
                         control_exp = charged_offic_check.control_tole_expire
-                    # print("charged -----------------------", charged_offic_check.tax_charged_amount)
-                    # print("tax_charged ---------------------------------------------", tax_charged)
-                    '''
-                    here we used this expression different for other because this tax is created before the other one it make difficult
-                    for our signal file py to update all data automatically sp we require another query to update to charged_car_official
-                    so because here both charged car for tax and charged_car_official are valid it is difficult to say 500<500
-                    so we use < or =
-                    to keep working on our logic 
-                    
-                    '''
-                    if charged_offic_check.tax_charged_amount < tax_charged or charged_offic_check.tax_charged_amount == tax_charged:
-                        if charged_offic_check.tax_charged_amount < tax_charged:
-                            tax_amount = tax_charged
-                            tax_exp = charged_offic_check.tax_tole_expire
-                            # message ============ phase ================ driver
-                            name = charged_offic_check.car.owner_name
-                            amount = tax_amount
-                            date = tax_exp
-                            status = 'Tax'
-                            phone_number = charged_offic_check.car.owner_phone_number
-                            # send_charged_sms(name, amount, date, status, phone_number)
-                            print(" --------------------------tax -------charged-------------- ", tax_charged)
-
-                        elif charged_offic_check.tax_tole_expire:
-                            tax_amount = tax_charged
-                            tax_exp = charged_offic_check.tax_tole_expire
-                        else:
-
-                            tax_amount = tax_charged
-                            tax_exp = charging_temporaly.tax_ban_expire
+                    if charged_offic_check.tax_charged_amount < tax_charged and charged_offic_check.tax_charged_amount == 0:
+                        tax_amount = tax_charged
+                        tax_exp = charging_temporaly.tax_ban_expire
+                        # message ============ phase ================ driver
+                        name = charged_offic_check.car.owner_name
+                        amount = tax_amount
+                        date = tax_exp
+                        status = 'Tax'
+                        phone_number_assigned = charged_offic_check.car.phone_number_assign
+                        phone_number = charged_offic_check.car.owner_phone_number
+                        # send message to both side
+                        # send_charged_sms(name, amount, date, status, phone_number)
+                        if charged_offic_check.car.phone_number_assign:
+                            print("part to give to the new renting information")
+                            # send_charged_sms(name, amount, date, status, phone_number_assigned)
+                        print(" --------------------------tax -------charged-------------- ", tax_charged)
                     else:
                         tax_amount = charged_offic_check.tax_charged_amount
                         tax_exp = charged_offic_check.tax_tole_expire
@@ -241,7 +241,7 @@ def detect_car(request):
                         control_charged_amount=control_amount, insurance_tole_expire=insurance_exp,
                         control_tole_expire=control_exp, tax_tole_expire=tax_exp)
 
-                # ======================== check if car paid their charges with check waranty expiration
+                # ======================== check if car paid their charges with check warranty expiration
                 # =======================
                 check_car_charged_official = Charged_car_official.objects.filter(car=car_detected).first()
                 if check_car_charged_official:
@@ -274,8 +274,9 @@ def detect_car(request):
                     Unregistered_car.objects.create(police=user_police_road, plate_number=plate_number, danger=True)
 
         # if is not exist in db say car is not registered and other condition or something went wrong
-        except:
+        except ImportError as e:
             print("car not registered or something went wrong")
+            print(e)
     # else if is plate number dummy
     else:
         Dummy.objects.create(police=user_police_road)
@@ -433,35 +434,60 @@ def automatic_detect_car(request):
                     insurance_amount = charging_temporaly.insurance_charged
                     control_charged = charging_temporaly.control_charged
                     tax_charged = charging_temporaly.tax_charged
-                    if charged_offic_check.insurance_charged_amount < insurance_amount:
+                    if charged_offic_check.insurance_charged_amount < insurance_amount and charged_offic_check.insurance_charged_amount == 0:
                         insurance_amount = insurance_amount
                         insurance_exp = charging_temporaly.insurance_ban_expire
+                        # message ============ phase ================ driver
+                        name = charged_offic_check.car.owner_name
+                        amount = insurance_amount
+                        date = insurance_exp
+                        status = 'Insurance'
+                        phone_number = charged_offic_check.car.owner_phone_number
+                        phone_number_assigned = charged_offic_check.car.phone_number_assign
+                        # send message both side ===================
+                        # send_charged_sms(name, amount, date, status, phone_number)
+                        if charged_offic_check.car.phone_number_assign:
+                            print("part to give to the new renting information")
+                            # send_charged_sms(name, amount, date, status, phone_number_assigned)
+                        print(" --------------------------insurance -------charged-------------- ", insurance_amount)
                     else:
                         insurance_amount = charged_offic_check.insurance_charged_amount
                         insurance_exp = charged_offic_check.insurance_tole_expire
-                    if charged_offic_check.control_charged_amount < control_charged:
+                    if charged_offic_check.control_charged_amount < control_charged and charged_offic_check.control_charged_amount == 0:
                         control_amount = control_charged
                         control_exp = charging_temporaly.control_ban_expire
+                        # message ============ phase ================ driver
+                        name = charged_offic_check.car.owner_name
+                        amount = control_amount
+                        date = control_exp
+                        status = 'Control'
+                        phone_number_assigned = charged_offic_check.car.phone_number_assign
+                        phone_number = charged_offic_check.car.owner_phone_number
+                        # message for both side ===============
+                        # send_charged_sms(name, amount, date, status, phone_number)
+                        if charged_offic_check.car.phone_number_assign:
+                            print("part to give to the new renting information")
+                            # send_charged_sms(name, amount, date, status, phone_number_assigned)
+                        print(" --------------------------control -------charged-------------- ", control_amount)
                     else:
                         control_amount = charged_offic_check.control_charged_amount
                         control_exp = charged_offic_check.control_tole_expire
-                    print("charged -----------------------", charged_offic_check.tax_charged_amount)
-                    print("tax_charged ---------------------------------------------", tax_charged)
-                    '''
-                    here we used this expression different for other because this tax is created before the other one it make difficult
-                    for our signal file py to update all data automatically sp we require another query to update to charged_car_official
-                    so because here both charged car for tax and charged_car_official are valid it is difficult to say 500<500
-                    so we use < or =
-                    to keep working on our logic
-
-                    '''
-                    if charged_offic_check.tax_charged_amount < tax_charged or charged_offic_check.tax_charged_amount == tax_charged:
-                        if charged_offic_check.tax_tole_expire:
-                            tax_amount = tax_charged
-                            tax_exp = charged_offic_check.tax_tole_expire
-                        else:
-                            tax_amount = tax_charged
-                            tax_exp = charging_temporaly.tax_ban_expire
+                    if charged_offic_check.tax_charged_amount < tax_charged and charged_offic_check.tax_charged_amount == 0:
+                        tax_amount = tax_charged
+                        tax_exp = charging_temporaly.tax_ban_expire
+                        # message ============ phase ================ driver
+                        name = charged_offic_check.car.owner_name
+                        amount = tax_amount
+                        date = tax_exp
+                        status = 'Tax'
+                        phone_number_assigned = charged_offic_check.car.phone_number_assign
+                        phone_number = charged_offic_check.car.owner_phone_number
+                        # send message to both side
+                        # send_charged_sms(name, amount, date, status, phone_number)
+                        if charged_offic_check.car.phone_number_assign:
+                            print("part to give to the new renting information")
+                            # send_charged_sms(name, amount, date, status, phone_number_assigned)
+                        print(" --------------------------tax -------charged-------------- ", tax_charged)
                     else:
                         tax_amount = charged_offic_check.tax_charged_amount
                         tax_exp = charged_offic_check.tax_tole_expire

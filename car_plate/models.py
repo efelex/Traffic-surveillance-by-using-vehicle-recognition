@@ -37,7 +37,7 @@ class Car_registration(models.Model):
 
 class Insurance(models.Model):
     insurance_name = models.CharField(max_length=50)
-    car = models.ForeignKey(Car_registration, on_delete=models.SET_NULL, null=True)
+    car = models.ForeignKey(Car_registration, on_delete=models.CASCADE, null=True)
     insurance_duration_start = models.DateField()
     insurance_duration_end = models.DateField()
     time_done = models.DateTimeField(auto_now_add=True)
@@ -51,7 +51,7 @@ class Insurance(models.Model):
 
 class Car_Control(models.Model):
     control_name = models.CharField(max_length=50)
-    car = models.ForeignKey(Car_registration, on_delete=models.SET_NULL, null=True)
+    car = models.ForeignKey(Car_registration, on_delete=models.CASCADE, null=True)
     control_start = models.DateField()
     control_end = models.DateField()
     time_done = models.DateTimeField(auto_now_add=True)
@@ -65,7 +65,7 @@ class Car_Control(models.Model):
 
 class Tax(models.Model):
     tax_name = models.CharField(max_length=50)
-    car = models.ForeignKey(Car_registration, on_delete=models.SET_NULL, null=True)
+    car = models.ForeignKey(Car_registration, on_delete=models.CASCADE, null=True)
     tax_start = models.DateField()
     tax_end = models.DateField()
     time_done = models.DateTimeField(auto_now_add=True)
@@ -78,7 +78,7 @@ class Tax(models.Model):
 
 
 class Captured(models.Model):
-    police = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    police = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     car = models.ForeignKey(Car_registration, on_delete=models.SET_NULL, null=True)
     insurance_status = models.BooleanField()
     tax_status = models.BooleanField()
@@ -94,7 +94,7 @@ class Captured(models.Model):
 
 
 class Charged_car(models.Model):
-    police = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    police = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     car = models.ForeignKey(Car_registration, on_delete=models.SET_NULL, null=True)
     insurance_charged = models.PositiveIntegerField(default=0)
     tax_charged = models.PositiveIntegerField(default=0)
@@ -112,7 +112,7 @@ class Charged_car(models.Model):
 
 
 class Charged_car_official(models.Model):
-    police = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    police = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     car = models.ForeignKey(Car_registration, on_delete=models.SET_NULL, null=True, blank=True)
     insurance_charged_amount = models.PositiveIntegerField(default=0, null=True, blank=True)
     tax_charged_amount = models.PositiveIntegerField(default=0, null=True, blank=True)
@@ -124,23 +124,14 @@ class Charged_car_official(models.Model):
     time_done = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.car.plate_number} --- {self.time_done}'
+        return f"{self.car.plate_number}----{self.car.owner_name}"
 
     class Meta:
         verbose_name_plural = 'Charged Car Official'
 
 
-class MoneyCharges(models.Model):
-    insurance_charges = models.PositiveIntegerField()
-    control_charges = models.PositiveIntegerField()
-    tax_charges = models.PositiveIntegerField()
-
-    class Meta:
-        verbose_name_plural = 'Money charges'
-
-
 class Dummy(models.Model):
-    police = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    police = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     dummy_name = models.CharField(max_length=20, default='Dummy')
     time_done = models.DateTimeField(auto_now_add=True)
 
@@ -152,7 +143,7 @@ class Dummy(models.Model):
 
 
 class Unregistered_car(models.Model):
-    police = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    police = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plate_number = models.CharField(max_length=50)
     time_done = models.DateTimeField(auto_now_add=True)
     danger = models.BooleanField()
@@ -180,3 +171,12 @@ class Police_request(models.Model):
     class Meta:
         verbose_name_plural = "Police Request"
         ordering = ['-id']
+
+
+class MoneyCharges(models.Model):
+    insurance_charges = models.PositiveIntegerField(null=True, blank=True)
+    control_charges = models.PositiveIntegerField(null=True, blank=True)
+    tax_charges = models.PositiveIntegerField(null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Money charges'

@@ -17,11 +17,13 @@ def create_official_charged(sender, instance, created, **kwargs):
         tax_charged = instance.tax_charged
         insurance_amount = instance.insurance_charged
         control_charged = instance.control_charged
-        if tax_charged > 0:
-            print(" hey you have been charged ------------------ tax -----------", tax_charged)
 
-        Charged_car_official.objects.create(police=police_info, car=car_info, insurance_charged_amount=insurance_amount,
-                                            tax_charged_amount=tax_charged, control_charged_amount=control_charged)
+
+        # Charged_car_official.objects.create(police=police_info, car=car_info,
+        # insurance_charged_amount=insurance_amount, tax_charged_amount=tax_charged,
+        # control_charged_amount=control_charged)
+        Charged_car_official.objects.create(police=police_info, car=car_info, insurance_charged_amount=0,
+                                            tax_charged_amount=0, control_charged_amount=0)
 
 
 @receiver(post_save, sender=Charged_car)
