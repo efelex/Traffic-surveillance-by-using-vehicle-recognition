@@ -46,7 +46,9 @@ urlpatterns = [
     path('charged_car_detected/', charged_car_detected, name='charged_car_detected'),
 
     # message from admin
-    path('new_home_message/', new_home_message, name='new_home_message')
+    path('new_home_message/', new_home_message, name='new_home_message'),
+    # home new message read
+    path('new_home_message_read/<int:id>/', new_home_message_read, name='new_home_message_read'),
 
 
 

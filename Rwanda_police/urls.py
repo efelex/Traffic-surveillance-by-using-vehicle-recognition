@@ -22,7 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('authentication.urls')),
-    path('superimboniadmin/', include('admin_panel.urls'))
+    path('superimboniadmin/', include('admin_panel.urls')),
+    path('driver/', include('drivers.urls'))
 ]
 
 urlpatterns += staticfiles_urlpatterns()

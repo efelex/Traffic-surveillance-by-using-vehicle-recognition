@@ -1,0 +1,91 @@
+{% extends 'admin_driver/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="content-body">
+            <div class="container-fluid">
+                <!-- row -->
+
+
+                <div class="row">
+					<div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Car status</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example5" class="display min-w850">
+                                        <thead>
+                                            <tr>
+                                                <th>
+													<div class="custom-control custom-checkbox">
+														<input type="checkbox" class="form-check-input" id="checkAll" required="">
+														<label class="custom-control-label" for="checkAll"></label>
+													</div>
+												</th>
+                                                <th>Plate Number</th>
+                                                <th>Driver name</th>
+                                                <th>Phone Number</th>
+                                                <th>Insurance status</th>
+                                                <th>Control Status</th>
+                                                <th>Tax Status</th>
+                                                <th>Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for all_owner_car in all_owner_car %}
+                                            <tr onclick="window.location='{% url 'driver_payment' all_owner_car.id %}';">
+                                                <td>
+													<div class="custom-control custom-checkbox">
+														<input type="checkbox" class="form-check-input" id="customCheckBox2" required="">
+														<label class="custom-control-label" for="customCheckBox2"></label>
+													</div>
+												</td>
+                                                <td>{{ all_owner_car.car.plate_number }}</td>
+                                                <td>{{ all_owner_car.car.owner_name }}</td>
+                                                <td>{{ all_owner_car.car.owner_phone_number }}</td>
+                                                <td>
+                                                    {% if all_owner_car.insurance_tole_expire is None %}
+                                                        <span class="badge light badge-success">free</span>
+                                                    {% elif all_owner_car.insurance_tole_expire > now %}
+                                                            <span class="badge light badge-warning">pending</span>
+                                                    {% else %}
+                                                    <span class="badge light badge-danger">danger</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if all_owner_car.control_tole_expire is None %}
+                                                        <span class="badge light badge-success">free</span>
+                                                    {% elif all_owner_car.control_tole_expire > now %}
+                                                            <span class="badge light badge-warning">pending</span>
+                                                    {% else %}
+                                                    <span class="badge light badge-danger">danger</span>
+                                                    {% endif %}
+                                                </td>
+												<td>
+													{% if all_owner_car.tax_tole_expire is None %}
+                                                        <span class="badge light badge-success">free</span>
+                                                    {% elif all_owner_car.tax_tole_expire > now %}
+                                                            <span class="badge light badge-warning">pending</span>
+                                                    {% else %}
+                                                    <span class="badge light badge-danger">danger</span>
+                                                    {% endif %}
+												</td>
+                                                <td>
+                                                    <a href="{% url 'driver_payment' all_owner_car.id %}" class="btn btn-success shadow btn-xs sharp me-1"><i class="fa fa-money" aria-hidden="true"></i></a>
+												</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            </div>
+        </div>
+
+{% endblock %}

@@ -22,6 +22,7 @@ class Car_registration(models.Model):
     Owner_Id = models.IntegerField()
     car_model = models.CharField(max_length=200, null=False)
     owner_phone_number = PhoneNumberField()
+    phone_number_assign = PhoneNumberField(blank=True, null=True)
     owner_email = models.EmailField()
     plate_number = models.CharField(max_length=20, unique=True)
     time_done = models.DateTimeField(auto_now_add=True)
@@ -119,6 +120,7 @@ class Charged_car_official(models.Model):
     insurance_tole_expire = models.DateField(null=True, blank=True)
     control_tole_expire = models.DateField(null=True, blank=True)
     tax_tole_expire = models.DateField(null=True, blank=True)
+
     time_done = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -126,6 +128,15 @@ class Charged_car_official(models.Model):
 
     class Meta:
         verbose_name_plural = 'Charged Car Official'
+
+
+class MoneyCharges(models.Model):
+    insurance_charges = models.PositiveIntegerField()
+    control_charges = models.PositiveIntegerField()
+    tax_charges = models.PositiveIntegerField()
+
+    class Meta:
+        verbose_name_plural = 'Money charges'
 
 
 class Dummy(models.Model):

@@ -1,0 +1,255 @@
+{% extends 'driver/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <!-- Banner Section start -->
+    <section class="banner-section index">
+        <div class="overlay">
+            <div class="shape-area">
+                <img src="{% static 'driver/assets/images/banner-box.png' %}" class="obj-1" alt="image">
+                <img src="{% static 'driver/assets/images/banner-human.png' %}" class="obj-2" alt="image">
+                <img src="{% static 'driver/assets/images/banner-rocket.png' %}" class="obj-3" alt="image">
+                <img src="{% static 'driver/assets/images/banner-clock.png' %}" class="obj-4" alt="image">
+            </div>
+            <div class="banner-content">
+                <div class="container wow fadeInUp">
+                    <div class="content-shape">
+                        <img src="{% static 'driver/assets/images/banner-wallet.png' %}" class="obj-1" alt="image">
+                    </div>
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-lg-5 col-md-6">
+                            <div class="main-content">
+                                <div class="top-area section-text">
+                                    <h5 class="sub-title">Payment for charges</h5>
+                                    <h1 class="title">Pay Charges, Anywhere</h1>
+                                    <p class="xlr">Platform for paying charges from police camera surveillance .</p>
+                                </div>
+                                <div class="bottom-area d-xxl-flex">
+                                    <a href="{% url 'login_driver' %}" class="cmn-btn">Explore More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Banner Section end -->
+
+    <!-- Our Solutions start -->
+    <section class="our-solutions">
+        <div class="overlay pt-120 pb-120">
+            <div class="container wow fadeInUp">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="section-header dark-sec text-center">
+                            <h5 class="sub-title">High speeds. Pay charges. No delay.</h5>
+                            <h2 class="title">All Your Payments In One Place</h2>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row cus-mar">
+                    <div class="col-xl-3 col-6">
+                        <div class="single-item">
+                            <img src="{% static 'driver/assets/images/icon/our-solutions-icon-4.png' %}" alt="icon">
+                            <h5>Payments</h5>
+                            <p>You can pay the charges through mobile money and be able to free your charges and control it.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-6">
+                        <div class="single-item">
+                            <img src="{% static 'driver/assets/images/icon/our-solutions-icon-2.png' %}" alt="icon">
+                            <h5>Collections</h5>
+                            <p>Easy to monitor Insurance, control and Tax status and be able to know if it is still valid.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-6">
+                        <div class="single-item">
+                            <img src="{% static 'driver/assets/images/icon/our-solutions-icon-3.png' %}" alt="icon">
+                            <h5>Exchange</h5>
+                            <p>You can be able to rent car then assign new number to be both able to control it.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-6">
+                        <div class="single-item">
+
+                            <img src="{% static 'driver/assets/images/icon/our-solutions-icon-1.png' %}" alt="icon">
+                            <h5>Warning</h5>
+                            <p>You can be able to evaluate the status of your Car and check all warnings.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Our Solutions end -->
+
+    <!-- How it Works start -->
+    <section class="how-it-works">
+        <div class="overlay pb-120">
+            <div class="container wow fadeInUp">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="section-header text-center">
+                            <h5 class="sub-title">How it works?</h5>
+                            <h2 class="title">Just few steps to start</h2>
+                            <p>It's easier than you think. Follow simple easy steps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row cus-mar">
+                    <div class="col-xl-3 col-sm-6 col-6">
+                        <div class="single-item first text-center">
+                            <img src="{% static 'driver/assets/images/icon/how-works-icon-1.png' %}" alt="icon">
+                            <h5>Login for free</h5>
+                            <p>You can simply log in using your mobile phone assigned on your car</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-6">
+                        <div class="single-item second text-center">
+                            <img src="{% static 'driver/assets/images/icon/how-works-icon-2.png' %}" alt="icon">
+                            <h5>Verify</h5>
+                            <p>As system use two-factor authentication you need to confirm with PIN</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-6">
+                        <div class="single-item first text-center">
+                            <img src="{% static 'driver/assets/images/icon/how-works-icon-3.png' %}" alt="icon">
+                            <h5>Make your payment</h5>
+                            <p>You can easily check if there's charges you have to pay then pay it easily and fast</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-6">
+                        <div class="single-item text-center">
+                            <img src="{% static 'driver/assets/images/icon/how-works-icon-4.png' %}" alt="icon">
+                            <h5>You're all done!</h5>
+                            <p>Then you get notification that charges paid and all done in fun way</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- How it Works end -->
+
+    <!-- FAQs In start -->
+    <section class="faqs-section">
+        <div class="overlay pt-120 pb-120">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="section-header text-center">
+                            <h5 class="sub-title">Frequently Asked Questions</h5>
+                            <h2 class="title">If you got questions we have answer</h2>
+                            <p>We have a list of frequently asked questions about us</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row cus-mar">
+                    <div class="col-lg-6">
+                        <div class="accordion" id="accordionLeft">
+                            <div class="accordion-item">
+                                <h6 class="accordion-header" id="headingLeftOne">
+                                    <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseLeftOne"
+                                        aria-expanded="false" aria-controls="collapseLeftOne">
+                                        How to Login in this platform?
+                                    </button>
+                                </h6>
+                                <div id="collapseLeftOne" class="accordion-collapse collapse"
+                                    aria-labelledby="headingLeftOne" data-bs-parent="#accordionLeft">
+                                    <div class="accordion-body">
+                                        <p>You need to use the phone number that assigned to your registered car and remember to use + and country code</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h6 class="accordion-header" id="headingLeftTwo">
+                                    <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseLeftTwo"
+                                        aria-expanded="false" aria-controls="collapseLeftTwo">
+                                        How much are money you have to pay on charges?
+                                    </button>
+                                </h6>
+                                <div id="collapseLeftTwo" class="accordion-collapse collapse"
+                                    aria-labelledby="headingLeftTwo" data-bs-parent="#accordionLeft">
+                                    <div class="accordion-body">
+                                        <p>It's depends on the charges you need to pay Insurance, Tax and control can have the different amount of charges.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h6 class="accordion-header" id="headingLeftFour">
+                                    <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseLeftFour"
+                                        aria-expanded="false" aria-controls="collapseLeftFour">
+                                        Can you be able to check all warning?
+                                    </button>
+                                </h6>
+                                <div id="collapseLeftFour" class="accordion-collapse collapse"
+                                    aria-labelledby="headingLeftFour" data-bs-parent="#accordionLeft">
+                                    <div class="accordion-body">
+                                        <p>When you are on dashboard after log in you can be easily to check it.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="accordion" id="accordionRight">
+                            <div class="accordion-item">
+                                <h6 class="accordion-header" id="headingRightOne">
+                                    <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseRightOne"
+                                        aria-expanded="false" aria-controls="collapseRightOne">
+                                        Are money payment charges  safe?
+                                    </button>
+                                </h6>
+                                <div id="collapseRightOne" class="accordion-collapse collapse"
+                                    aria-labelledby="headingRightOne" data-bs-parent="#accordionRight">
+                                    <div class="accordion-body">
+                                        <p>As we are using two-factor authentication for security the security is secured than before.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h6 class="accordion-header" id="headingRightThree">
+                                    <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseRightThree"
+                                        aria-expanded="false" aria-controls="collapseRightThree">
+                                        Which currency can I use to pay charges?
+                                    </button>
+                                </h6>
+                                <div id="collapseRightThree" class="accordion-collapse collapse"
+                                    aria-labelledby="headingRightThree" data-bs-parent="#accordionRight">
+                                    <div class="accordion-body">
+                                        <p>It's better to use Rwandan Francs .</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h6 class="accordion-header" id="headingRightFour">
+                                    <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseRightFour"
+                                        aria-expanded="false" aria-controls="collapseRightFour">
+                                        How do you support renting Car?
+                                    </button>
+                                </h6>
+                                <div id="collapseRightFour" class="accordion-collapse collapse"
+                                    aria-labelledby="headingRightFour" data-bs-parent="#accordionRight">
+                                    <div class="accordion-body">
+                                        <p>In the dashboard you have the opptions to assing new Number to someone who is going to use your car</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FAQs In end -->
+
+{% endblock %}

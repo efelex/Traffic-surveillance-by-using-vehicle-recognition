@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, loader, get_object_or_404
 from django.utils import timezone
 from car_plate.plate_detection import plate_detect, automatic_detect
 from car_plate.models import Car_registration, Insurance, Car_Control, Tax, Captured, Charged_car, Charged_car_official, \
-    Dummy, Unregistered_car
+    Dummy, Unregistered_car, MoneyCharges
 from datetime import timedelta
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
@@ -16,6 +16,7 @@ now = timezone.now()
 
 future_date = datetime.now() + timedelta(days=3)
 waranty_expire = future_date.date()
+money_charges = MoneyCharges.objects.all().first()
 
 
 # Create your views here.
@@ -103,7 +104,7 @@ def detect_car(request):
 
                 # if tax is false means that tax expired
                 if not tax_status:
-                    tax_charged = 500
+                    tax_charged = money_charges.tax_charges
                     charging = Charged_car.objects.filter(car=car_detected)
                     if charging:
                         Charged_car.objects.filter(car=car_detected).update(tax_charged=tax_charged,
@@ -122,7 +123,7 @@ def detect_car(request):
                                                    tax_ban_expire=tax_waranty_new)
                 # if insurance is false means that insurance expired
                 if not insurance_status:
-                    insurance_charged = 1000
+                    insurance_charged = money_charges.insurance_charges
                     charging = Charged_car.objects.filter(car=car_detected)
                     if charging:
                         Charged_car.objects.filter(car=car_detected).update(insurance_charged=insurance_charged,
@@ -141,7 +142,7 @@ def detect_car(request):
                                                    insurance_ban_expire=insurance_waranty_new)
                 # if control is false means that control expired
                 if not control_status:
-                    control_charged = 1500
+                    control_charged = money_charges.control_charges
                     charging = Charged_car.objects.filter(car=car_detected)
                     if charging:
                         Charged_car.objects.filter(car=car_detected).update(control_charged=control_charged,
@@ -529,6 +530,7 @@ def new_home_message(request):
         'message_all': all_message_home
     }
     return render(request, 'new_home_message.html', context)
+
 
 def new_home_message_read(request, id):
     user = request.user

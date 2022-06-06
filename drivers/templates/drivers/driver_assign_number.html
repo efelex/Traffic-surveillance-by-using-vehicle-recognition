@@ -1,0 +1,72 @@
+{% extends 'admin_driver/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+					<h4>Assign Phone Number</h4>
+                </div>
+                <!-- row -->
+                <div class="row">
+                    <div class="col-xl-6 col-lg-12 col-sm-12">
+						<div class="card overflow-hidden">
+							<div class="text-center p-3 overlay-box " style="background-image: url({% static 'admin_driver/images/big/img1.jpg' %});">
+								<div class="profile-photo">
+									<img src="{% static 'admin_driver/images/profile/profile.png' %}" width="100" class="img-fluid rounded-circle" alt="">
+								</div>
+								<h3 class="mt-3 mb-1 text-white">Car Detail</h3>
+							</div>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item d-flex justify-content-between"><span class="mb-0">Plate number</span> <strong class="text-muted">{{ car_detail.plate_number }}</strong></li>
+                                <li class="list-group-item d-flex justify-content-between"><span class="mb-0">Owner Name</span> <strong class="text-muted">{{ car_detail.owner_name }}	</strong></li>
+								<li class="list-group-item d-flex justify-content-between"><span class="mb-0">Owner Number</span> 		<strong class="text-muted">{{ car_detail.owner_phone_number }}	</strong></li>
+                                {% if car_detail.phone_number_assign  %}
+                                <li class="list-group-item d-flex justify-content-between"><span class="mb-0">Assigned Number</span> 		<strong class="text-muted">{{ car_detail.phone_number_assign }}	</strong></li>
+                                {% endif %}
+
+							</ul>
+
+                        </div>
+					</div>
+                    <div class="col-xl-6 col-lg-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Phone Number Assign</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="basic-form">
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-3 col-form-label">Phone number</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" placeholder="Phone number" name="phone_number_assign">
+                                            </div>
+                                        </div>
+                                        {% for err in form.phone_number_assign.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                          {{ err }}
+                                        </div>
+                                    {% endfor %}
+                                        <div class="mb-3 row">
+                                            <div class="col-sm-10">
+                                                <button type="submit" class="btn btn-primary">Assign</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+
+
+
+

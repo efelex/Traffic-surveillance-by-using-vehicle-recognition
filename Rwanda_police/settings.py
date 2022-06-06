@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'codes',
     'phonenumber_field',
     'car_plate.apps.CarPlateConfig',
-    'admin_panel.apps.AdminPanelConfig'
+    'admin_panel.apps.AdminPanelConfig',
+    'drivers.apps.DriversConfig'
 
 ]
 
