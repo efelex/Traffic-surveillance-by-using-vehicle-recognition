@@ -43,4 +43,9 @@ this project have two part
 ======================= Dashboard for Drivers ====================
 ![image](https://user-images.githubusercontent.com/51321655/187272982-dd10a03d-f9d4-49ab-9a6d-343f2ea7013a.png)
 
-
+====================== Installation ====================
+1. clone repo
+2. Inside repo in cmd type command for creating envirnment:  py -m venv venv
+3. activate envirnment by using venv\Scripts\activate
+4. pip install requirements.txt
+5. open project then use py manage.py runserver
